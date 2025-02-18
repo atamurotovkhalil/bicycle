@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "About Us",
+    "link": "/about-us"
+  },
+  {
+    "id": 2,
+    "name": "Bicycle workshop",
+    "link": "/workshop"
+  },
+  {
+    "id": 3,
+    "name": "Storage",
+    "link": "/storage"
+  },
+  {
+    "id": 4,
+    "name": "Guarantees",
+    "link": "/guarantees"
+  },
+  {
+    "id": 5,
+    "name": "User agreement",
+    "link": "/agreement"
+  },
+  {
+    "id": 6,
+    "name": "Delivery and payment",
+    "link": "/payment-delivery"
+  },
+  {
+    "id": 7,
+    "name": "Blog",
+    "link": "/blog"
+  },
+  {
+    "id": 8,
+    "name": "Contacts",
+    "link": "/contact"
+  }
+]

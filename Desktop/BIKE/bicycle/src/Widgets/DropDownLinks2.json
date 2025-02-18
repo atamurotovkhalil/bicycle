@@ -1,0 +1,28 @@
+[
+    {
+      "id": 1,
+      "name": "TRIATHLON BIKES",
+      "link": "/mountainbikes"
+    },
+    {
+      "id": 2,
+      "name": "DOUBLE SUSPENSION BIKES",
+      "link": "/mountainbikes"
+    },
+    {
+      "id": 3,
+      "name": "ELECTRIC BICYCLES",
+      "link": "/mountainbikes"
+    },
+    {
+      "id": 4,
+      "name": "WOMEN'S BICYCLES",
+      "link": "/mountainbikes"
+    },
+    {
+      "id": 5,
+      "name": "CHILDREN'S BICYCLES",
+      "link": "/mountainbikes"
+    }
+  ]
+  

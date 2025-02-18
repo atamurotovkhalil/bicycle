@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "MOUNTAIN BIKES",
+    "link": "/mountainbikes"
+  },
+  {
+    "id": 2,
+    "name": "CITY BIKES",
+    "link": "/mountainbikes"
+  },
+  {
+    "id": 3,
+    "name": "ROAD BIKES",
+    "link": "/mountainbikes"
+  },
+  {
+    "id": 4,
+    "name": "GRAVEL BIKES",
+    "link": "/mountainbikes"
+  },
+  {
+    "id": 5,
+    "name": "TRACK BIKES",
+    "link": "/mountainbikes"
+  }
+]

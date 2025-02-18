@@ -1,0 +1,483 @@
+{
+  "spareParts": {
+    "frameAndForks": [
+      {
+        "part": "Frame",
+        "description": "The main structure of the bicycle, available in different materials like steel, aluminum, carbon fiber.",
+        "types": "Road Frame",
+        "imageUrl": "/EssentialComponents/Frames/roadframe.jpeg",
+        "manufacturer": "Trek",
+        "country": "USA",
+        "warranty": "Lifetime"
+      },
+      {
+        "part": "Frame",
+        "description": "The main structure of the bicycle, available in different materials like steel, aluminum, carbon fiber.",
+        "types": "Mountain Frame",
+        "imageUrl": "/EssentialComponents/Frames/mountainframe.webp",
+        "manufacturer": "Trek",
+        "country": "USA",
+        "warranty": "Lifetime"
+      },
+      {
+        "part": "Frame",
+        "description": "The main structure of the bicycle, available in different materials like steel, aluminum, carbon fiber.",
+        "types": "Hybrid Frame",
+        "imageUrl": "/EssentialComponents/Frames/hybridframe.jpg",
+        "manufacturer": "Trek",
+        "country": "USA",
+        "warranty": "Lifetime"
+      },
+      {
+        "part": "Fork",
+        "description": "The front part that holds the front wheel. Can be rigid or suspension type.",
+        "types": "Rigid Fork",
+        "imageUrl": "/EssentialComponents/Forks/rigidfork.webp",
+        "manufacturer": "RockShox",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Fork",
+        "description": "The front part that holds the front wheel. Can be rigid or suspension type.",
+        "types": "Suspension Fork",
+        "imageUrl": "/EssentialComponents/Forks/suspensionfork.jpg",
+        "manufacturer": "RockShox",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Headset",
+        "description": "A bearing system that connects the fork to the frame and allows the steering of the bike.",
+        "types": "Threaded",
+        "imageUrl": "/EssentialComponents/Headset/threadedheadset.jpeg",
+        "manufacturer": "Cane Creek",
+        "country": "USA",
+        "warranty": "5 Years"
+      },
+      {
+        "part": "Headset",
+        "description": "A bearing system that connects the fork to the frame and allows the steering of the bike.",
+        "types": "Threadless",
+        "imageUrl": "/EssentialComponents/Headset/threadlessheadset.webp",
+        "manufacturer": "Cane Creek",
+        "country": "USA",
+        "warranty": "5 Years"
+      }
+    ],
+    "wheelsAndTires": [
+      {
+        "part": "Tires",
+        "description": "Rubber components that make contact with the road or trail.",
+        "types": "Road Tires",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/roadtires.webp",
+        "manufacturer": "Schwalbe",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Tires",
+        "description": "Rubber components that make contact with the road or trail.",
+        "types": "Mountain Tires",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/mountaintires.webp",
+        "manufacturer": "Schwalbe",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Tires",
+        "description": "Rubber components that make contact with the road or trail.",
+        "types": "Hybrid Tires",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/hybridtires.jpg",
+        "manufacturer": "Schwalbe",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Tires",
+        "description": "Rubber components that make contact with the road or trail.",
+        "types": "Fat Tires",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/fattires.jpg",
+        "manufacturer": "Schwalbe",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Inner Tubes",
+        "description": "Rubber tubes inserted inside tires to hold air.",
+        "types": "Standard",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/innertubesstandart.webp",
+        "manufacturer": "Continental",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Inner Tubes",
+        "description": "Rubber tubes inserted inside tires to hold air.",
+        "types": "Presta Valve",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/innertubesprestavalve.jpg",
+        "manufacturer": "Continental",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Inner Tubes",
+        "description": "Rubber tubes inserted inside tires to hold air.",
+        "types": "Schrader Valve",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/innertubeschrader.webp",
+        "manufacturer": "Continental",
+        "country": "Germany",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Rims",
+        "description": "The metal ring that holds the tire and provides the wheel structure.",
+        "types": "Aluminum Rims",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/rimsaliminum.jpg",
+        "manufacturer": "Mavic",
+        "country": "France",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Rims",
+        "description": "The metal ring that holds the tire and provides the wheel structure.",
+        "types": "Carbon Rims",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/rimscarbon.webp",
+        "manufacturer": "Mavic",
+        "country": "France",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Rims",
+        "description": "The metal ring that holds the tire and provides the wheel structure.",
+        "types": "Steel Rims",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/rimssteel.jpg",
+        "manufacturer": "Mavic",
+        "country": "France",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Hubs",
+        "description": "The central part of the wheel where the spokes are connected and the axle passes through.",
+        "types": "Front Hub",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/hubfront.jpg",
+        "manufacturer": "DT Swiss",
+        "country": "Switzerland",
+        "warranty": "5 Years"
+      },
+      {
+        "part": "Hubs",
+        "description": "The central part of the wheel where the spokes are connected and the axle passes through.",
+        "types": "Rear Hub",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/hubrear.webp",
+        "manufacturer": "DT Swiss",
+        "country": "Switzerland",
+        "warranty": "5 Years"
+      },
+      {
+        "part": "Hubs",
+        "description": "The central part of the wheel where the spokes are connected and the axle passes through.",
+        "types": "Freehub",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/hubfree.jpg",
+        "manufacturer": "DT Swiss",
+        "country": "Switzerland",
+        "warranty": "5 Years"
+      },
+      {
+        "part": "Spokes",
+        "description": "The metal rods that connect the hub to the rim.",
+        "types": "Steel Spokes",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/spokessteel.webp",
+        "manufacturer": "Sapim",
+        "country": "Belgium",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Spokes",
+        "description": "The metal rods that connect the hub to the rim.",
+        "types": "Carbon Spokes",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/spokescarbon,webp",
+        "manufacturer": "Sapim",
+        "country": "Belgium",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Spokes",
+        "description": "The metal rods that connect the hub to the rim.",
+        "types": "Titanium Spokes",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/spokestitanium.jpeg",
+        "manufacturer": "Sapim",
+        "country": "Belgium",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Nipples",
+        "description": "Small metal parts that hold the spoke in place on the rim.",
+        "types": "Brass Nipples",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/nipplesbras.jpg",
+        "manufacturer": "DT Swiss",
+        "country": "Switzerland",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Nipples",
+        "description": "Small metal parts that hold the spoke in place on the rim.",
+        "types": "Aluminum Nipples",
+        "imageUrl": "/EssentialComponents/Wheels&Tires/nipplesaliminum.webp",
+        "manufacturer": "DT Swiss",
+        "country": "Switzerland",
+        "warranty": "2 Years"
+      }
+    ],
+    "brakingSystem": [
+      {
+        "part": "Brake Pads",
+        "description": "Pads that make contact with the wheel or disc to slow down the bike.",
+        "types": "Rim Brake Pads",
+        "imageUrl": "/EssentialComponents/Brakes/brakerimpads.jpeg",
+        "manufacturer": "Shimano",
+        "country": "Japan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Brake Pads",
+        "description": "Pads that make contact with the wheel or disc to slow down the bike.",
+        "types": "Disc Brake Pads",
+        "imageUrl": "/EssentialComponents/Brakes/brakediscpads.jpg",
+        "manufacturer": "Shimano",
+        "country": "Japan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Brake Pads",
+        "description": "Pads that make contact with the wheel or disc to slow down the bike.",
+        "types": "V-Brake Pads",
+        "imageUrl": "/EssentialComponents/Brakes/vpads.jpg",
+        "manufacturer": "Shimano",
+        "country": "Japan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Brake Calipers",
+        "description": "The mechanism that holds the brake pads and applies force to stop the bike.",
+        "types": "Cantilever",
+        "imageUrl": "/EssentialComponents/Brakes/cantilivercalipers.jpeg",
+        "manufacturer": "SRAM",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Brake Calipers",
+        "description": "The mechanism that holds the brake pads and applies force to stop the bike.",
+        "types": "V-Brake",
+        "imageUrl": "/EssentialComponents/Brakes/calipersvbrake.jpg",
+        "manufacturer": "SRAM",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Brake Calipers",
+        "description": "The mechanism that holds the brake pads and applies force to stop the bike.",
+        "types": "Disc Brake",
+        "imageUrl": "/EssentialComponents/Brakes/calipersvbrake.jpg",
+        "manufacturer": "SRAM",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Brake Levers",
+        "description": "Levers attached to the handlebars that control the braking force.",
+        "types": "Drop Bar Levers",
+        "imageUrl": "/EssentialComponents/Brakes/leversdropbar.jpeg",
+        "manufacturer": "Tektro",
+        "country": "Taiwan",
+        "warranty": "1 Year"
+      },
+
+      {
+        "part": "Brake Levers",
+        "description": "Levers attached to the handlebars that control the braking force.",
+        "types": "Flat Bar Levers",
+        "imageUrl": "/EssentialComponents/Brakes/leversflatbar.webp",
+        "manufacturer": "Tektro",
+        "country": "Taiwan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Brake Cables",
+        "description": "Cables that transfer the force from the brake lever to the caliper.",
+        "types": "Stainless Steel Cable",
+        "imageUrl": "/EssentialComponents/Brakes/cablesbrakestainless.jpg",
+        "manufacturer": "Jagwire",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Brake Cables",
+        "description": "Cables that transfer the force from the brake lever to the caliper.",
+        "types": "Polymer-Coated Cable",
+        "imageUrl": "/EssentialComponents/Brakes/polymercable.jpg",
+        "manufacturer": "Jagwire",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Disc Rotors",
+        "description": "The metal discs on the wheel that work with disc brakes.",
+        "types": "Centerlock",
+        "imageUrl": "/EssentialComponents/Brakes/discrotorscentre.jpeg",
+        "manufacturer": "Hope",
+        "country": "UK",
+        "warranty": "5 Years"
+      },
+      {
+        "part": "Disc Rotors",
+        "description": "The metal discs on the wheel that work with disc brakes.",
+        "types": "6-Bolt",
+        "imageUrl": "/EssentialComponents/Brakes/discrotors6bolt.jpeg",
+        "manufacturer": "Hope",
+        "country": "UK",
+        "warranty": "5 Years"
+      }
+    ],
+    "drivetrain": [
+      {
+        "part": "Crankset",
+        "description": "The component that includes the cranks and chainrings to transfer pedaling force to the drivetrain.",
+        "types": "Double Crankset",
+        "imageUrl": "/EssentialComponents/Cranksets/drivetraindouble.webp",
+        "manufacturer": "FSA",
+        "country": "Italy",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Crankset",
+        "description": "The component that includes the cranks and chainrings to transfer pedaling force to the drivetrain.",
+        "types": "Triple Crankset",
+        "imageUrl": "/EssentialComponents/Cranksets/cranksettriple.jpg",
+        "manufacturer": "FSA",
+        "country": "Italy",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Crankset",
+        "description": "The component that includes the cranks and chainrings to transfer pedaling force to the drivetrain.",
+        "types": "Single Crankset",
+        "imageUrl": "/EssentialComponents/Cranksets/crancsetsingle.webp",
+        "manufacturer": "FSA",
+        "country": "Italy",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Chain",
+        "description": "A component that transfers power from the pedals to the rear wheel.",
+        "types": "9-Speed Chain",
+        "imageUrl": "/EssentialComponents/chain/9speed.jpg",
+        "manufacturer": "KMC",
+        "country": "Taiwan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Chain",
+        "description": "A component that transfers power from the pedals to the rear wheel.",
+        "types": "10-Speed Chain",
+        "imageUrl": "/EssentialComponents/Cranksets/10speed.jpeg",
+        "manufacturer": "KMC",
+        "country": "Taiwan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Chain",
+        "description": "A component that transfers power from the pedals to the rear wheel.",
+        "types": "11-Speed Chain",
+        "imageUrl": "/EssentialComponents/Cranksets/11speed.webp",
+        "manufacturer": "KMC",
+        "country": "Taiwan",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Derailleur",
+        "description": "The mechanism that moves the chain between gears.",
+        "types": "Front Derailleur",
+        "imageUrl": "/EssentialComponents/Deralleur/front.jpg",
+        "manufacturer": "SRAM",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Derailleur",
+        "description": "The mechanism that moves the chain between gears.",
+        "types": "Rear Derailleur",
+        "imageUrl": "/EssentialComponents/Cranksets/rear.webp",
+        "manufacturer": "SRAM",
+        "country": "USA",
+        "warranty": "2 Years"
+      }
+    ],
+    "handlebarAndStem": [
+      {
+        "part": "Handlebars",
+        "description": "The part the rider grips to steer the bicycle.",
+        "types": "Drop Bars",
+        "imageUrl": "/EssentialComponents/Handlebars/dropbar.webp",
+        "manufacturer": "Ritchey",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Handlebars",
+        "description": "The part the rider grips to steer the bicycle.",
+        "types": "Flat Bars",
+        "imageUrl": "/EssentialComponents/Handlebars/flatbar.jpg",
+        "manufacturer": "Ritchey",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Handlebars",
+        "description": "The part the rider grips to steer the bicycle.",
+        "types": "Riser Bars",
+        "imageUrl": "/EssentialComponents/Handlebars/riser.webp",
+        "manufacturer": "Ritchey",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Handlebars",
+        "description": "The part the rider grips to steer the bicycle.",
+        "types": "Bullhorn Bars",
+        "imageUrl": "/EssentialComponents/Handlebars/bullhorn.png",
+        "manufacturer": "Ritchey",
+        "country": "USA",
+        "warranty": "2 Years"
+      },
+      {
+        "part": "Bar Tape",
+        "description": "Tape used on drop bars to provide grip and comfort.",
+        "types": "Cork Tape",
+        "imageUrl": "https://example.com/images/bar-tape.jpg",
+        "manufacturer": "Cinelli",
+        "country": "Italy",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Bar Tape",
+        "description": "Tape used on drop bars to provide grip and comfort.",
+        "types": "Foam Tape",
+        "imageUrl": "https://example.com/images/bar-tape.jpg",
+        "manufacturer": "Cinelli",
+        "country": "Italy",
+        "warranty": "1 Year"
+      },
+      {
+        "part": "Bar Tape",
+        "description": "Tape used on drop bars to provide grip and comfort.",
+        "types": "Gel Tape",
+        "imageUrl": "https://example.com/images/bar-tape.jpg",
+        "manufacturer": "Cinelli",
+        "country": "Italy",
+        "warranty": "1 Year"
+      }
+    ]
+  }
+}
