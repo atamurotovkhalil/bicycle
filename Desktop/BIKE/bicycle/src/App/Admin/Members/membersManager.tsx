@@ -16,7 +16,7 @@ const MembersManager = () => {
   const [page, setPage] = useState(1);
   const user = useUserStore((state: any)=>state.user)
   const fetchUserData = useUserStore((state: any)=>state.fetchUserData)
-  const users = useUserStore((state: any)=>state.users)
+  const users = useUserStore((state)=>state.users)
   const fetchAllUsersData = useUserStore((state: any)=>state.fetchAllUsersData)
 
   useEffect(() => {
@@ -30,14 +30,14 @@ const MembersManager = () => {
   };
   function forwardPage() {
     fetchAllUsersData("keyword", searchTerm);
-    if (page > 0 && 0 <= users.length) {
+    if (Array.isArray(users) && users.length > 0 && page > 0) {
       setPage(page + 1);
       fetchAllUsersData("page", page + 1);
     }
   }
   function prevPage() {
     fetchAllUsersData("keyword", searchTerm);
-    if (page >= 1 && 0 <= users.length) {
+    if (Array.isArray(users) && users.length > 0 && page >= 1) {
       setPage(page - 1);
       fetchAllUsersData("page", page - 1);
       console.log(users);
@@ -59,7 +59,7 @@ const MembersManager = () => {
         );
         if (blockUser === true) {
           const response = await fetch(
-            `http://localhost:3000/auth/userupdate/${member._id}`,
+            `http://localhost:3000/auth/userupdate/${member.id}`,
             {
               method: "PATCH",
               headers: {
@@ -84,7 +84,7 @@ const MembersManager = () => {
         );
         if (activeUser === true) {
           const response = await fetch(
-            `http://localhost:3000/auth/userupdate/${member._id}`,
+            `http://localhost:3000/auth/userupdate/${member.id}`,
             {
               method: "PATCH",
               headers: {
@@ -106,7 +106,7 @@ const MembersManager = () => {
       }
       fetchAllUsersData();
 
-      console.log(`Member with ID ${member._id} was successfully activated.`);
+      console.log(`Member with ID ${member.id} was successfully activated.`);
     } catch (err: any) {
       console.error("Failed to activate member:", err.message || err);
     }
@@ -175,7 +175,6 @@ const MembersManager = () => {
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2">ID</th>
               <th className="border border-gray-300 px-4 py-2">Name</th>
-              <th className="border border-gray-300 px-4 py-2">Image</th>
               <th className="border border-gray-300 px-4 py-2">Email</th>
               <th className="border border-gray-300 px-4 py-2">Role</th>
               <th className="border border-gray-300 px-4 py-2">Status</th>
@@ -184,15 +183,12 @@ const MembersManager = () => {
           </thead>
           <tbody>
             {users?.map((member: User) => (
-              <tr key={member._id} className="text-center">
+              <tr key={member.id} className="text-center">
                 <td className="border border-gray-300 px-4 py-2">
-                  {member._id}
+                  {member.id}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {member.name}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  
+                  {member.firstName}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {member.email}
@@ -200,9 +196,12 @@ const MembersManager = () => {
                 <td className="border border-gray-300 px-4 py-2">
                   {member.role}
                 </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {member.role}
+                </td>
                 <td
                   className={`border border-gray-300 px-4 py-2 font-semibold ${
-                    member.status === "ACTIVE_USER"
+                    member.status === "ACTIVE"
                       ? "text-green-600"
                       : "text-red-600"
                   }`}
@@ -211,7 +210,7 @@ const MembersManager = () => {
                 </td>
                 <td className="border flex  border-gray-300 px-4 py-2">
                   <button
-                    disabled={member._id === user?._id}
+                    disabled={member.id === user?.id}
                     onClick={() => {
                       handleActivate(member);
                     }}
@@ -226,9 +225,9 @@ const MembersManager = () => {
                       : "BLOCK"}
                   </button>
                   <button
-                    disabled={member._id === user?._id}
+                    disabled={member.id === user?.id}
                     onClick={() => {
-                      deleteMember(member._id);
+                      deleteMember(member.id);
                     }}
                     className="bg-red-500 text-white mx-1 px-3 py-1 rounded-md hover:bg-red-600"
                   >

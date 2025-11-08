@@ -1,41 +1,60 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { Product } from "@/App/Admin/AddProduct";
+import { BikeDTO, filter } from "@/Shared/Types/Product";
+
+interface store {
+  products: BikeDTO[];
+  fetchProducts: (filter: filter, page: number, size: number) => Promise<void>;
+}
 
 export const useProductStore = create(
   devtools((set) => ({
     products: [], // Initialize products as null
-    filteredProducts: [], //
-    setFilteredProducts: (products: Product[]) => set({ filteredProducts: products }),
+    //filteredProducts: [], //
+    //setFilteredProducts: (products: BikeDTO[]) => set({ filteredProducts: products }),
     //
-    relatedProduct: null, // Initialize related
-    setRelatedProduct: (product: Product) => set({ relatedProduct: product }),
-    fetchProducts: async (searchType: string, searchTerm: string | number) => {
-     try {
-        let url = `http://localhost:3000/products`;
+    //relatedProduct: null, // Initialize related
+    //setRelatedProduct: (product: BikeDTO) => set({ relatedProduct: product }),
+    fetchProducts: async (filter: filter, page: number, size: number) => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      try {
+        let url = `http://localhost:8080/bikes/all`;
 
-        // Append search query if searchTerm is provided
-        if (searchTerm) {
-          url += `?${searchType}=${encodeURIComponent(searchTerm)}`;
+        if (page && size) {
+          url += `?page=${encodeURIComponent(page)}&size=${encodeURIComponent(
+            size
+          )}`;
         }
-
         const response = await fetch(url, {
-          method: "GET",
+          method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${token}`, // Uncomment if using authentication
           },
+          body: JSON.stringify({
+            priceFrom: filter?.priceFrom[0],
+            priceTo: filter?.priceTo[0],
+            checked: filter?.checked,
+            category: filter?.category,
+            brand: filter?.brand,
+            frame: filter?.frame,
+            color: filter?.color,
+            name: filter?.name,
+          }),
         });
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch product data: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Failed to fetch product data: ${response.status} ${response.statusText}`
+          );
         }
 
         const data = await response.json();
-        if (data.length > 0) {
-            set({ products: data });
-          }; // Update Zustand store with fetched products
-       // console.log(data.data);
+        console.log(data);
+        set({ products: data.content });
+        // Update Zustand store with fetched products
+        // console.log(data.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }

@@ -1,105 +1,23 @@
+import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
+import { User } from "@/Features/Signup&Login/Signup";
+import { BikeDTO, brand, categories, framematerial } from "@/Shared/Types/Product";
 import React, { useState } from "react";
 
-export const brand = [
-  { id: 1, name: "Bianci", value: "bianci" },
-  { id: 2, name: "BMC", value: "bmc" },
-  { id: 3, name: "Ciclistino", value: "ciclistino" },
-  { id: 4, name: "Cipollini", value: "cipollini" },
-  { id: 5, name: "Colnago", value: "colnago" },
-];
-
-export const framematerial = [
-  { id: 1, name: "Aluminum", value: "aluminum" },
-  { id: 2, name: "Carbon", value: "carbon" },
-  { id: 3, name: "Steel", value: "steel" },
-];
-
-export const categories = [
-  { id: 1, name: "MOUNTAIN BIKES", value: "mountainbikes" },
-  { id: 2, name: "CITY BIKES", value: "citybikes" },
-  { id: 3, name: "ROAD BIKES", value: "roadbikes" },
-  { id: 4, name: "GRAVEL BIKES", value: "gravelbikes" },
-  { id: 5, name: "TRACK BIKES", value: "trackbikes" },
-  {
-    id: 6,
-    name: "TRIATHLON BIKES",
-    value: "triathlonbikes",
-  },
-  {
-    id: 7,
-    name: "DOUBLE SUSPENSION BIKES",
-    value: "doublesuspensionbikes",
-  },
-  {
-    id: 8,
-    name: "ELECTRIC BICYCLES",
-    value: "electricbicycles",
-  },
-  {
-    id: 9,
-    name: "WOMEN'S BICYCLES",
-    value: "womensbicycles",
-  },
-  {
-    id: 10,
-    name: "CHILDREN'S BICYCLES",
-    value: "childrensbicycles",
-  },
-];
-
-export interface Product {
-  _id: string;
-  name: string;
-  color: string;
-  year: string;
-  brand: string;
-  category: string;
-  wheelDiameter: string;
-  framematerial: string;
-  size: string;
-  country: string;
-  manufacturer: string;
-  tires: string;
-  frame: string;
-  seatpost: string;
-  saddle: string;
-  fork: string;
-  stem: string;
-  wheels: string;
-  handlebar: string;
-  brakeType: string;
-  brakingSystem: string;
-  shifters: string;
-  crankset: string;
-  rearDerailleur: string;
-  chain: string;
-  numberofSpeeds: string;
-  warranty: string;
-  price: number;
-  description: string;
-  socialNetworks: {
-    website: string;
-    instagram: string;
-    facebook: string;
-    twitter: string;
-  };
-  images: string[];
-  status: string;
-}
 
 const AddProduct: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedFrame, setSelectedFrame] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const [product, setProduct] = useState<Product>({
-    _id: "",
+  const {user, fetchUserData} = useUserStore();
+  const [product, setProduct] = useState<BikeDTO>({
+    id: "",
     name: "",
     color: "",
-    year: "",
+    year: 0,
     brand: selectedBrand,
     category: selectedCategory,
-    wheelDiameter: "",
+    wheelDiameter: 0,
     framematerial: selectedFrame,
     size: "",
     country: "",
@@ -108,19 +26,10 @@ const AddProduct: React.FC = () => {
     description: "",
     tires: "",
     frame: "",
-    seatpost: "",
-    saddle: "",
     fork: "",
-    stem: "",
-    wheels: "",
-    handlebar: "",
     brakeType: "",
-    brakingSystem: "",
-    shifters: "",
-    crankset: "",
-    rearDerailleur: "",
     chain: "",
-    numberofSpeeds: "",
+    numberofSpeeds: 0,
     warranty: "",
     socialNetworks: {
       website: "",
@@ -129,7 +38,7 @@ const AddProduct: React.FC = () => {
       twitter: "",
     },
     images: [] as string[],
-    status: "ACTIVE_PRODUCT",
+    status: "ACTIVE",
   });
 
   const handleInputChange = (
@@ -196,28 +105,20 @@ const AddProduct: React.FC = () => {
     formData.append("brand", selectedBrand);
     formData.append("description", product.description);
     formData.append("year", String(product.year)); // ✅ Convert number to string
-    formData.append("wheeldiameter", String(product.wheelDiameter));
-    formData.append("framematerial", selectedFrame);
+    formData.append("wheelDiameter", String(product.wheelDiameter));
+    formData.append("frameMaterial", selectedFrame);
     formData.append("size", product.size);
     formData.append("category", selectedCategory);
     formData.append("country", product.country);
     formData.append("manufacturer", product.manufacturer);
     formData.append("tires", product.tires);
     formData.append("frame", product.frame);
-    formData.append("seatpost", product.seatpost);
-    formData.append("saddle", product.saddle);
     formData.append("fork", product.fork);
+    formData.append("memberId", user?.id ?? "");
     formData.append("price", String(product.price));
-    formData.append("stem", product.stem);
-    formData.append("wheels", product.wheels);
-    formData.append("handlebar", product.handlebar);
-    formData.append("braketype", product.brakeType);
-    formData.append("brakingsystem", product.brakingSystem);
-    formData.append("shifters", product.shifters);
-    formData.append("crankset", product.crankset);
-    formData.append("rearderailleur", product.rearDerailleur);
+    formData.append("brakeType", product.brakeType);
     formData.append("chain", product.chain);
-    formData.append("numberofspeeds", String(product.numberofSpeeds)); // ✅ Convert to string
+    formData.append("numberOfSpeeds", String(product.numberofSpeeds)); // ✅ Convert to string
     formData.append("warranty", product.warranty);
     formData.append("status", product.status);
 
@@ -254,13 +155,11 @@ const AddProduct: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/products", {
+      const response = await fetch("http://localhost:8080/bikes", {
         method: "POST",
         body: formData,
         headers: {
-          // ❌ REMOVE "Content-Type" - It must be set automatically
-          // "Content-Type": "multipart/form-data",
-          // "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -358,9 +257,9 @@ const AddProduct: React.FC = () => {
               onChange={(e) => setSelectedBrand(e.target.value)}
             >
               <option value="">All Categories</option>
-              {brand?.map((category) => (
-                <option key={category.id} value={category.value}>
-                  {category.name}
+              {brand?.map((brand) => (
+                <option key={brand.id} value={brand.value}>
+                  {brand.name}
                 </option>
               ))}
             </select>
@@ -424,9 +323,9 @@ const AddProduct: React.FC = () => {
               onChange={(e) => setSelectedFrame(e.target.value)}
             >
               <option value="">All Categories</option>
-              {framematerial?.map((category) => (
-                <option key={category.id} value={category.value}>
-                  {category.name}
+              {framematerial?.map((material) => (
+                <option key={material.id} value={material.value}>
+                  {material.name}
                 </option>
               ))}
             </select>
@@ -554,41 +453,6 @@ const AddProduct: React.FC = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="seatpost"
-              className="block text-sm font-semibold mb-2"
-            >
-              Seatpost
-            </label>
-            <input
-              type="text"
-              id="seatpost"
-              name="seatpost"
-              value={product.seatpost}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="saddle"
-              className="block text-sm font-semibold mb-2"
-            >
-              Saddle
-            </label>
-            <input
-              type="text"
-              id="saddle"
-              name="saddle"
-              value={product.saddle}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
             <label htmlFor="fork" className="block text-sm font-semibold mb-2">
               Fork
             </label>
@@ -604,55 +468,6 @@ const AddProduct: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="stem" className="block text-sm font-semibold mb-2">
-              Stem
-            </label>
-            <input
-              type="text"
-              id="stem"
-              name="stem"
-              value={product.stem}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="wheels"
-              className="block text-sm font-semibold mb-2"
-            >
-              Wheels
-            </label>
-            <input
-              type="text"
-              id="wheels"
-              name="wheels"
-              value={product.wheels}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="handlebar"
-              className="block text-sm font-semibold mb-2"
-            >
-              Handlebar
-            </label>
-            <input
-              type="text"
-              id="handlebar"
-              name="handlebar"
-              value={product.handlebar}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
             <label
               htmlFor="brakeType"
               className="block text-sm font-semibold mb-2"
@@ -664,76 +479,6 @@ const AddProduct: React.FC = () => {
               id="brakeType"
               name="brakeType"
               value={product.brakeType}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="brakingSystem"
-              className="block text-sm font-semibold mb-2"
-            >
-              Braking System
-            </label>
-            <input
-              type="text"
-              id="brakingSystem"
-              name="brakingSystem"
-              value={product.brakingSystem}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="shifters"
-              className="block text-sm font-semibold mb-2"
-            >
-              Shifters
-            </label>
-            <input
-              type="text"
-              id="shifters"
-              name="shifters"
-              value={product.shifters}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="crankset"
-              className="block text-sm font-semibold mb-2"
-            >
-              Crankset
-            </label>
-            <input
-              type="text"
-              id="crankset"
-              name="crankset"
-              value={product.crankset}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="rearDerailleur"
-              className="block text-sm font-semibold mb-2"
-            >
-              Rear Derailleur
-            </label>
-            <input
-              type="text"
-              id="rearDerailleur"
-              name="rearDerailleur"
-              value={product.rearDerailleur}
               onChange={handleInputChange}
               className="w-full p-2 border rounded-md"
               required
@@ -792,8 +537,8 @@ const AddProduct: React.FC = () => {
         </div>
         <div>
           <h3 className="text-lg font-semibold">Social Networks</h3>
-          {Object.keys(product.socialNetworks).map((key) => (
-            <div>
+          {Object.keys(product.socialNetworks).map((key, id) => (
+            <div key={id}> 
               <label htmlFor={key} className="block text-sm font-semibold mb-2">
                 {key}
               </label>

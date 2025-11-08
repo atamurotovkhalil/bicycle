@@ -4,38 +4,48 @@ import { SiSellfy } from "react-icons/si";
 import { Link } from "react-router";
 
 export interface User {
-  username: string;
+  user: any;
+  firstname: string;
+  lastname: string;
   password: string;
   email: string;
-  usernameIsValid: boolean | null;
+  firstnameIsValid: boolean | null;
+  lastnameIsValid: boolean | null;
   passwordIsValid: boolean | null;
   emailIsValid: boolean | null;
 }
 
 const initialUserState = {
-  username: "",
+  firstname: "",
+  lastname: "",
   password: "",
   email: "",
-  usernameIsValid: null,
+  firstnameIsValid: null,
+  lastnameIsValid: null,
   passwordIsValid: null,
   emailIsValid: null,
 };
 
 function reducer(state: any, action: any) {
   switch (action.type) {
-    case "USERNAME_INPUT":
+    case "FIRSTNAME_INPUT":
       return {
         ...state,
-        username: action.payload,
-        usernameIsValid: action.payload.length >= 6,
+        firstname: action.payload,
+        firstnameIsValid: action.payload.length >= 5,
+      };
+    case "LASTNAME_INPUT":
+      return {
+        ...state,
+        lastname: action.payload,
+        lastnameIsValid: action.payload.length >= 5,
       };
     case "PASSWORD_INPUT":
       return {
         ...state,
         password: action.payload,
         passwordIsValid:
-          action.payload.length >= 6 &&
-          (action.payload.includes("_") || action.payload.includes("-")),
+          action.payload.length >= 5 && action.payload.length <= 20,
       };
     case "EMAIL_INPUT":
       return {
@@ -54,11 +64,11 @@ function reducer(state: any, action: any) {
 const index = () => {
   const [user, dispatch] = useReducer(reducer, initialUserState);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)  => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Check validation before submission
-    if (user.usernameIsValid && user.passwordIsValid && user.emailIsValid) {
+    if (user.firstnameIsValid && user.lastnameIsValid && user.passwordIsValid && user.emailIsValid) {
       try {
         let memberType = "";
         if (user.username === "WEBSITE_ADMIN") {
@@ -66,21 +76,21 @@ const index = () => {
         } else {
           memberType = "USER";
         }
-        const response = await fetch("http://localhost:3000/auth/signup", {
+        const response = await fetch("http://localhost:8080/members/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
             password: user.password,
             email: user.email,
-            role: memberType,
           }),
         });
 
         if (response.ok) {
-          const data = await response.json()
+          const data = await response.json();
           dispatch({ type: "RESET_FORM" }); // Reset form after successful login
 
           localStorage.setItem("token", data.token);
@@ -117,35 +127,35 @@ const index = () => {
                 <div className="container p-4">
                   <div className="flex justify-center">
                     <input
-                      id="username"
+                      id="firstname"
                       type="text"
-                      value={user.username}
+                      value={user.firstname}
                       onChange={(e) =>
                         dispatch({
-                          type: "USERNAME_INPUT",
+                          type: "FIRSTNAME_INPUT",
                           payload: e.target.value,
                         })
                       }
-                      placeholder="Username"
+                      placeholder="First Name"
                       className={`p-3 w-full lg:w-[50%] text-black rounded-full border mb-4 ${
-                        user.usernameIsValid === false ? "border-red-500" : ""
+                        user.firstnameIsValid === false ? "border-red-500" : ""
                       }`}
                     />
                   </div>
                   <div className="flex justify-center">
                     <input
-                      id="password"
-                      type="password"
-                      value={user.password}
+                      id="lastname"
+                      type="text"
+                      value={user.lastname}
                       onChange={(e) =>
                         dispatch({
-                          type: "PASSWORD_INPUT",
+                          type: "LASTNAME_INPUT",
                           payload: e.target.value,
                         })
                       }
-                      placeholder="Password"
+                      placeholder="Last Name"
                       className={`p-3 w-full lg:w-[50%] text-black rounded-full border mb-4 ${
-                        user.passwordIsValid === false ? "border-red-500" : ""
+                        user.lastnameIsValid === false ? "border-red-500" : ""
                       }`}
                     />
                   </div>
@@ -166,6 +176,24 @@ const index = () => {
                       }`}
                     />
                   </div>
+                  <div className="flex justify-center">
+                    <input
+                      id="password"
+                      type="password"
+                      value={user.password}
+                      onChange={(e) =>
+                        dispatch({
+                          type: "PASSWORD_INPUT",
+                          payload: e.target.value,
+                        })
+                      }
+                      placeholder="Password"
+                      className={`p-3 w-full lg:w-[50%] text-black rounded-full border mb-4 ${
+                        user.passwordIsValid === false ? "border-red-500" : ""
+                      }`}
+                    />
+                  </div>
+
                   <div className="flex justify-center text-center items-center py-2">
                     <button
                       type="submit"
@@ -174,7 +202,9 @@ const index = () => {
                       Sign Up
                     </button>
                   </div>
-                  <div className="flex items-center font-semibold justify-center">or</div>
+                  <div className="flex items-center font-semibold justify-center">
+                    or
+                  </div>
                   <div className="flex justify-center text-center items-center py-2">
                     <Link
                       to="/login"

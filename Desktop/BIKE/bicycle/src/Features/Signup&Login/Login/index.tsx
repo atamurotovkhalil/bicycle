@@ -39,7 +39,7 @@ const Login = () => {
 
     if (user.usernameIsValid && user.passwordIsValid) {
       try {
-        const response = await fetch("http://localhost:3000/auth/login", {
+        const response = await fetch("http://localhost:8080/members/authenticate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -19,9 +19,6 @@ import { FaTwitter } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import { CgWebsite } from "react-icons/cg";
 import { CiHeart } from "react-icons/ci";
-import vel1 from "./../../../../public/ProductDetails/vel1.png";
-import vel2 from "./../../../../public/ProductDetails/vel2.png";
-import { Card, CardContent } from "@/Components/UI/card";
 import {
   Carousel,
   CarouselContent,
@@ -32,7 +29,7 @@ import {
 import deliver from "./../../../../public/ProductDetails/deliver.jpeg";
 import { usePopupStore } from "@/Features/Popups/PopupStore";
 import { useProductStore } from "../store/bikes-store";
-import { Product } from "@/App/Admin/AddProduct";
+import { BikeDTO } from "@/Shared/Types/Product";
 import { Link, useParams } from "react-router";
 import { server_api } from "@/Shared/Lib/config";
 import { useAddToCartStore } from "@/Pages/addToCartStore";
@@ -41,31 +38,37 @@ import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
 type Props = {};
 
 const ProductDetail = (props: Props) => {
-  const [img, setImg] = useState("");
   const [count, setCount] = useState(0);
   const confirmedOrder = usePopupStore((state: any) => state.confirmedOrder);
-  const productDetail = useProductStore((state: any) => state.productDetail);
   const fetchProducts = useProductStore((state: any) => state.fetchProducts);
   const products = useProductStore((state: any) => state.products);
   const addToCart = useAddToCartStore((state: any) => state.addToCart);
   const fetchUserData = useUserStore((state: any) => state.fetchUserData);
   const user = useUserStore((state: any) => state.user);
+  const { fetchCartData } = useAddToCartStore();
 
-  useEffect(() => {
+
+    useEffect(() => {
     fetchProducts();
     fetchUserData();
   }, [fetchProducts, fetchUserData]);
   const productId = useParams();
 
-  const product = products.find((p: Product) => p._id === productId.id);
+  const product = products.find((p: BikeDTO) => p.id === productId.id);
+  const [img, setImg] = useState({
+    extension: "",
+    id: "",
+    originName: "",
+    path: "",
+    size: 0,
+    storageName: "",
+  });
 
-  console.log(productId.id);
-  console.log(product?.socialnetworks?.website);
-  console.log(product?.color);
 
-  const setOrder = (product: Product) => {
-    addToCart(product._id, user._id);
+  const setOrder = async(product: BikeDTO) => {
+    await addToCart(product.id);
     confirmedOrder(product);
+    await fetchCartData();
     confirmedOrder();
   };
 
@@ -102,16 +105,19 @@ const ProductDetail = (props: Props) => {
             <div>
               <div className="col-span-1 flex items-center justify-center m-5">
                 <img
-                  className="w-96 h-96"
-                  src={`${server_api.replace(/\/$/, "")}/${
-                    img === ""
-                      ? product.images?.[0]
-                          .split("/")
-                          .map(encodeURIComponent)
-                          .join("/")
-                      : img?.split("/").map(encodeURIComponent).join("/")
-                  }`}
-                  alt="Placeholder"
+                  className="w-full h-[350px] object-contain rounded-lg"
+                  src={
+                    img.id ===""
+                      ? `${server_api.replace(/\/$/, "")}/${encodeURI(
+                          product?.images[0]?.path
+                        )}/${encodeURIComponent(
+                          product?.images[0]?.storageName
+                        )}`
+                      : `${server_api.replace(/\/$/, "")}/${encodeURI(
+                          img.path
+                        )}/${encodeURIComponent(img?.storageName)}`
+                  }
+                  alt="bike-image"
                 />
               </div>
               <div className="flex justify-center items-center">
@@ -119,33 +125,31 @@ const ProductDetail = (props: Props) => {
                   opts={{
                     align: "start",
                   }}
-                  className="w-full border-0  max-w-sm"
+                  className="w-[30%] h-[200px] border-0  max-w-sm"
                 >
                   <CarouselContent>
                     {product?.images
-                      ?.slice(0, 4)
-                      .map((image: any, index: number) => (
-                        <CarouselItem
-                          key={index}
-                          onClick={() => setImg(image)}
-                          className="flex justify-center items-center"
-                        >
-                          <img
-                            key={index}
-                            src={
-                              image
-                                ? `${server_api.replace(/\/$/, "")}/${image
-                                    .split("/")
-                                    .map(encodeURIComponent)
-                                    .join("/")}`
-                                : "default-placeholder.jpg"
-                            }
-                            alt={`Product ${index + 1}`}
-                            className="w-40  h-40  flex items-center justify-center"
-                          />
-                        </CarouselItem>
-                      ))}
+                    .map((image: any, index: number) => (
+                      <CarouselItem
+                        key={index}
+                        onClick={() => setImg(image)}
+                        className="flex justify-center items-center"
+                      >
+                        <img
+                          src={
+                            image
+                              ? `${server_api.replace(/\/$/, "")}/${encodeURI(
+                                  image.path
+                                )}/${encodeURIComponent(image.storageName)}`
+                              : "default-placeholder.jpg"
+                          }
+                          alt={`Product ${index + 1}`}
+                          className="w-40 h-40 flex items-center justify-center"
+                        />
+                      </CarouselItem>
+                    ))}
                   </CarouselContent>
+
                   <CarouselPrevious />
                   <CarouselNext />
                 </Carousel>
@@ -168,24 +172,24 @@ const ProductDetail = (props: Props) => {
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
                           <Link
                             //to="https://www.google.com"
-                            to={product?.socialnetworks?.website}
+                            to={product?.socialNetworks?.website}
                           >
                             <CgWebsite className="text-xl text-black" />
                           </Link>
                         </div>
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
-                          <Link to={product?.socialnetworks?.facebook}>
+                          <Link to={product?.socialNetworks[1]}>
                             <FaFacebook className="text-xl text-black" />
                           </Link>
                         </div>
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
-                          <Link to={product?.socialnetworks?.twitter}>
+                          <Link to={product?.socialNetworks?.twitter}>
                             <FaTwitter className="text-xl text-black" />
                           </Link>
                         </div>
 
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
-                          <Link to={product?.socialnetworks?.instagram}>
+                          <Link to={product?.socialNetworks[0]}>
                             <FaInstagramSquare className="text-xl text-black" />
                           </Link>
                         </div>
@@ -194,7 +198,7 @@ const ProductDetail = (props: Props) => {
                   </div>
                   <p
                     className={`text-sm text-${
-                      product?.status === "SOLD_PRODUCT" ? "red" : "green"
+                      product?.status === "SOLD" ? "red" : "green"
                     }-600`}
                   >
                     {product?.status}
@@ -266,7 +270,7 @@ const ProductDetail = (props: Props) => {
                 </div>
                 <div>
                   <button
-                    style={{ backgroundColor: product.color }}
+                    style={{ backgroundColor: product?.color }}
                     className={`m-3 border border-black   p-4 rounded-full `}
                   ></button>
                 </div>
@@ -328,7 +332,7 @@ const ProductDetail = (props: Props) => {
           </p>
         </div>
         <div className="my-5">
-          <p className="text-gray-600 text-sm">{product.description}</p>
+          <p className="text-gray-600 text-sm">{product?.description}</p>
         </div>
         <div>
           <p className="text-4xl text-black font-semibold mx-5 my-10">
@@ -341,7 +345,7 @@ const ProductDetail = (props: Props) => {
               <p className="text-gray-600 text-md m-4">Color</p>
               <div className="text-gray-600 text-md m-4">
                 <button
-                  style={{ backgroundColor: product.color }}
+                  style={{ backgroundColor: product?.color }}
                   className={`m-3 border border-black   p-4 rounded-full `}
                 ></button>
               </div>
@@ -385,65 +389,25 @@ const ProductDetail = (props: Props) => {
               <p className="text-gray-600 text-md m-4">{product?.frame}</p>
             </div>
             <div className="flex bg-gray-100 justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Seatpost</p>
-              <p className="text-gray-600 text-md m-4">{product?.seatpost}</p>
-            </div>
-            <div className="flex justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Saddle</p>
-              <p className="text-gray-600 text-md m-4">{product?.saddle}</p>
-            </div>
-            <div className="flex bg-gray-100 justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Fork</p>
               <p className="text-gray-600 text-md m-4">{product?.fork}</p>
             </div>
-            <div className="flex justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Stem</p>
-              <p className="text-gray-600 text-md m-4">{product?.stem}</p>
-            </div>
-            <div className="flex bg-gray-100 justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Wheels</p>
-              <p className="text-gray-600 text-md m-4">{product?.wheels}</p>
-            </div>
-            <div className="flex justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Handlebar</p>
-              <p className="text-gray-600 text-md m-4">{product?.handlebar}</p>
-            </div>
-            <div className="flex bg-gray-100 justify-between items-center gap-2">
+            <div className="flex  justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Brake Type</p>
               <p className="text-gray-600 text-md m-4">{product?.braketype}</p>
             </div>
-            <div className="flex justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Braking System</p>
-              <p className="text-gray-600 text-md m-4">
-                {product?.brakingsystem}
-              </p>
-            </div>
             <div className="flex bg-gray-100 justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Shifters</p>
-              <p className="text-gray-600 text-md m-4">{product?.shifters}</p>
-            </div>
-            <div className="flex justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Crankset</p>
-              <p className="text-gray-600 text-md m-4">{product?.crankset}</p>
-            </div>
-            <div className="flex bg-gray-100 justify-between items-center gap-2">
-              <p className="text-gray-600 text-md m-4">Rear Derailleur</p>
-              <p className="text-gray-600 text-md m-4">
-                {product?.rearderailleur}
-              </p>
-            </div>
-            <div className="flex justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Chain</p>
               <p className="text-gray-600 text-md m-4">{product?.chain}</p>
             </div>
-            <div className="flex bg-gray-100 justify-between items-center gap-2">
+            <div className="flex  justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Number of Speeds</p>
               <p className="text-gray-600 text-md m-4">
                 {product?.numberofspeeds}
               </p>
             </div>
 
-            <div className="flex justify-between items-center gap-2">
+            <div className="flex bg-gray-100 justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Warranty</p>
               <p className="text-gray-600 text-md m-4">{product?.warranty}</p>
             </div>

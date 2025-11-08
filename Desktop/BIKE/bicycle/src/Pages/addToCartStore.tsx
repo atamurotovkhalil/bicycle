@@ -4,9 +4,9 @@ import { devtools } from "zustand/middleware";
 export const useAddToCartStore = create(
   devtools((set) => ({
     cartProducts: [],
-    fetchCartData: async (searchType: string, searchTerm: any) => {
+    fetchCartData: async () => {
       try {
-        let url = "http://localhost:3000/cart"; // Correct URL initialization
+        let url = "http://localhost:8080/members/cart-data"; // Correct URL initialization
         const token = localStorage.getItem("token"); // Retrieve token from localStorage
         // Append search query if searchTerm is provided
 
@@ -14,13 +14,13 @@ export const useAddToCartStore = create(
           const response = await fetch(url, {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`, // Uncomment if using authentication
             },
           });
 
           if (response.ok) {
             const data = await response.json();
+            console.log(data);
             set({ cartProducts: data }); // Update users in the store
           } else {
             console.error("Failed to fetch users data:", response.statusText);
@@ -30,23 +30,22 @@ export const useAddToCartStore = create(
         console.error("Error fetching users data:", error);
       }
     },
-    addToCart: async (productId: string, userId: any) => {
+    addToCart: async (productId: string) => {
       try {
-        let url = "http://localhost:3000/cart"; // Correct URL initialization
+        const url = `http://localhost:8080/members/add-to-cart/${productId}`; // Correct URL initialization
         const token = localStorage.getItem("token"); // Retrieve token from localStorage
 
         if (token) {
           const response = await fetch(url, {
-            method: "POST",
+            method: "PATCH",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`, // Uncomment if using authentication
             },
-            body: JSON.stringify({ productId, userId }),
           });
 
           if (response.ok) {
             const data = await response.json();
+            console.log(data)
           } else {
             console.error("Failed to fetch users data:", response.statusText);
           }
