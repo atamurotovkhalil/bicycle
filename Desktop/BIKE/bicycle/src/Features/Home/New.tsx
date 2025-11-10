@@ -1,13 +1,13 @@
-type Props = {};
 import news1 from "./../../../public/images/news1.png";
 import news2 from "./../../../public/images/news2.png";
 import news3 from "./../../../public/images/news3.png";
 import flag1 from "./../../../public/images/italyflag.png";
 import flag2 from "./../../../public/images/americaflag.png";
-import { FaWonSign } from "react-icons/fa6";
+import { FaDollarSign } from "react-icons/fa6";
 import { LuMousePointerClick } from "react-icons/lu";
 import { Link } from "react-router";
-const New = (props: Props) => {
+
+const New = () => {
   return (
     <div className="bg-[#F8F8F8]">
       <div className="container">
@@ -44,8 +44,8 @@ const New = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium">1000000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium">10000 USD</span>
             </div>
 
             {/* Button (Initially Hidden) */}
@@ -86,8 +86,8 @@ const New = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium">1000000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium">10000 USD</span>
             </div>
 
             {/* Button (Initially Hidden) */}
@@ -127,8 +127,8 @@ const New = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium">1000000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium">1000 USD</span>
             </div>
 
             {/* Button (Initially Hidden) */}

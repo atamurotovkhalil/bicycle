@@ -1,159 +1,212 @@
-import Categories from "./../categories.json";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
-import { FaSearch, FaWonSign } from "react-icons/fa";
-import { LuMousePointerClick } from "react-icons/lu";
-import { usePopupStore } from "@/Features/Popups/PopupStore";
-import { SpareProduct } from "@/App/Admin/AddSpareParts";
-import { useEffect, useState } from "react";
-import { useSparePartsStore } from "../spareparts-store";
-type Props = {};
+import {FaSearch, FaDollarSign} from "react-icons/fa";
+import {LuMousePointerClick} from "react-icons/lu";
+import {PopupStore, usePopupStore} from "@/Features/Popups/PopupStore";
+import React, {useEffect, useState} from "react";
+import {useSparePartsStore} from "../spareparts-store";
+import {SpareParts} from "@/Shared/Types/SpareParts.ts";
+import {server_api} from "@/Shared/Lib/config.ts";
+import {
+    Pagination,
+    PaginationContent, PaginationEllipsis,
+    PaginationItem,
+    PaginationLink, PaginationNext,
+    PaginationPrevious
+} from "@/Components/UI/pagination.tsx";
+import {Link} from "react-router";
 
-const HandlebarAndStem = (props: Props) => {
-  const [search, setSearchTerm] = useState("");
-  const confirmDetail = usePopupStore((state: any) => state.confirmDetail);
-  const spareProducts = useSparePartsStore((state: any) => state.spareProducts);
-  const fetchSpareProducts = useSparePartsStore(
-    (state: any) => state.fetchSpareProducts
-  );
+const HandlebarAndStem = () => {
+    const [search, setSearch] = useState({
+        term: "",
+        category: "HANDLEBAR_AND_STEM",
+    });
 
-  // const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   fetchSpareProducts("search", search);
-  // };
-  const searchProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-  const searchProducts = () => {
-    fetchSpareProducts("keyword", search);
-  };
-  console.log(spareProducts);
+    const [pagination, setPagination] = useState({page: 1, size: 6});
 
-  useEffect(() => {
-    fetchSpareProducts();
-  }, [fetchSpareProducts]);
+    const confirmDetail = usePopupStore((state: PopupStore) => state.confirmDetail);
+    const {spareProducts, fetchSpareProducts} = useSparePartsStore();
 
-  const spares = spareProducts.filter(
-    (product: SpareProduct) => product.category === "handlebarandstem"
-  );
+    useEffect(() => {
+        (async()=>{
+            try{
+                await fetchSpareProducts(search, pagination.page, pagination.size);
+            } catch (e){
+                alert(e);
+            }
+        })()
 
-  function onCategory(categroy: any) {
-    confirmDetail(categroy);
-  }
-  return (
-    <div>
-      <div>
-        <div
-          className="relative h-80 w-full bg-cover bg-left"
-          style={{
-            backgroundImage: "url('/EssentialComponents/handlebars.webp')",
-          }}
-        >
-          <div className="absolute inset-0 bg-black/70"></div>
+    }, [search, pagination.page, pagination.size, fetchSpareProducts]);
 
-          <div className="relative z-10 container">
-            {/* Breadcrumb */}
-            <div className="py-10">
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink className="text-white" href="/">
-                      HOME
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage className="text-orange-600">
-                      HANDLEBAR AND STEM
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
+    // ✅ Handle input change
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch((prev) => ({...prev, term: e.target.value}));
+    };
 
-            {/* Title */}
-            <div>
-              <h1 className="text-white font-bold text-5xl my-20 font-sans">
-                HANDLEBAR AND STEM
-              </h1>
-            </div>
-          </div>
-        </div>
-        <div className="bg-black p-4">
-          <div className="container">
-            <p className="text-xl text-white p-4 italic">Searching:</p>
-            <div className="w-[200px]  flex">
-              <input
-                type="text"
-                onChange={(e) => searchProduct(e)}
-                className=" border  border-orange-500 rounded-r-none rounded-md"
-              ></input>
-              <button
-                onClick={searchProducts}
-                className="border border-primary border-orange-500 rounded-l-none rounded-md bg-primary text-white text-sm hover:bg-primary-dark duration-75"
-              >
-                <FaSearch className="text-sm bg-primary text-white  m-2" />
-              </button>
-            </div>
-          </div>
-        </div>
+    // ✅ Trigger manual search
+    const handleSearch = async() => {
+        setPagination((prev) => ({...prev, page: 1})); // reset page
+        await fetchSpareProducts(search, 1, pagination.size);
+    };
+
+    // ✅ Pagination handler
+    const handlePageChange = (page: number) => {
+        setPagination((prev) => ({...prev, page}));
+    };
+    return (
         <div>
-          <div className="container">
-            <div className="m-5 p-5">
-              <ul className="grid grid-cols-3 gap-5">
-                {spares?.map((category: SpareProduct) => (
-                  <li className=" hover:drop-shadow-xl bg-white group-hover:h-[529px] border rounded-xl group relative">
-                    {/* Top Section */}
-                    <div className="flex items-center justify-between">
-                      <p className="text-md text-green-600 m-4 px-3 bg-gray-100 rounded-lg text-right py-2">
-                        {category.country}
-                      </p>
-                    </div>
-                    <div className="m-3">
-                      {/* Main Image */}
-                      <div className="flex items-center justify-center">
-                        <img
-                          className="w-[320px] h-[220px] object-contain rounded-lg"
-                          src={category.imageUrl}
-                          alt="new-image"
-                        />
-                      </div>
-                      <p className="text-md text-green-600 m-4 px-3 bg-gray-100 rounded-lg text-left py-2">
-                        Manufacturer: {category.manufacturer}
-                      </p>
-                      <p className="text-md  m-4 px-3 bg-gray-100 rounded-lg text-left py-2">
-                        Types: : {category.types}
-                      </p>
-                      {/* Title */}
+            {/* Banner */}
+            <div
+                className="relative h-80 w-full bg-cover bg-left"
+                style={{backgroundImage: "url('/EssentialComponents/forkframe.webp')"}}
+            >
+                <div className="absolute inset-0 bg-black/70"/>
+                <div className="relative z-10 container py-10">
+                    <Breadcrumb>
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <Link className="text-white" to="/">
+                                    HOME
+                                </Link>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator/>
+                            <BreadcrumbItem>
+                                <BreadcrumbPage className="text-orange-600">
+                                    FRAME AND FORKS
+                                </BreadcrumbPage>
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
 
-                      {/* Price */}
-                      <div className="mt-3 mx-3 flex items-center justify-around gap-3">
-                        <FaWonSign className="text-gray-600 text-lg" />
-                        <span className="font-medium">889 000 KRW</span>
-                        <button
-                          onClick={() => onCategory(category)}
-                          className="bg-[#F57520] flex items-center justify-evenly gap-1 w-[200px] p-2  rounded-lg text-black text-md hover:bg-[#E1610C]"
-                        >
-                          <LuMousePointerClick className="text-gray-200 text-sm" />
-                          See in detail
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    <h1 className="text-white font-bold text-5xl my-20 font-sans">
+                        FRAME AND FORKS
+                    </h1>
+                </div>
             </div>
-          </div>
+
+            {/* Search Bar */}
+            <div className="bg-black p-4">
+                <div className="container">
+                    <p className="text-xl text-white p-4 italic">Searching:</p>
+                    <div className="w-[250px] flex">
+                        <input
+                            type="text"
+                            value={search.term}
+                            onChange={handleSearchChange}
+                            className="border border-orange-500 rounded-r-none rounded-md px-2 py-1 focus:outline-none"
+                            placeholder="Search..."
+                        />
+                        <button
+                            onClick={handleSearch}
+                            className="border border-orange-500 rounded-l-none rounded-md text-white text-sm px-3 bg-orange-600 hover:bg-orange-700"
+                        >
+                            <FaSearch className="text-sm"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Product List */}
+            <div className="container my-6">
+                <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {spareProducts?.map((product: SpareParts) => (
+                        <li
+                            key={product.id}
+                            className="hover:shadow-xl bg-white border rounded-xl p-4 flex flex-col justify-between"
+                        >
+                            <div>
+                                <p className="text-sm text-green-600 bg-gray-100 rounded-lg px-3 py-2 w-fit mb-2">
+                                    {product.country}
+                                </p>
+
+                                <div className="flex items-center justify-center">
+                                    <img
+                                        className="w-[300px] h-[200px] object-contain rounded-lg"
+                                        src={
+                                            product.images?.[0]
+                                                ? `${server_api.replace(/\/$/, "")}/${encodeURI(
+                                                    product.images[0].path
+                                                )}/${encodeURIComponent(
+                                                    product.images[0].storageName
+                                                )}`
+                                                : "/default-placeholder.jpg"
+                                        }
+                                        alt={product.name || "Spare Part"}
+                                    />
+                                </div>
+
+                                <p className="text-md text-green-600 mt-3 bg-gray-100 rounded-lg px-3 py-2">
+                                    Manufacturer: {product.manufacturer}
+                                </p>
+                                <p className="text-md bg-gray-100 rounded-lg px-3 py-2">
+                                    Type: {product.category}
+                                </p>
+                            </div>
+
+                            <div className="mt-4 flex items-center justify-between gap-3">
+                                <div className="flex items-center gap-1">
+                                    <FaDollarSign className="text-gray-600 text-lg"/>
+                                    <span className="font-semibold">
+                    {product.price?.toLocaleString() || "N/A"} USD
+                  </span>
+                                </div>
+
+                                <button
+                                    onClick={() => confirmDetail(product)}
+                                    className="bg-orange-600 hover:bg-orange-700 flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium"
+                                >
+                                    <LuMousePointerClick/>
+                                    See in detail
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            {/* Pagination */}
+            <div className="my-8">
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() => handlePageChange(Math.max(1, pagination.page - 1))}
+                                href="#"
+                            />
+                        </PaginationItem>
+
+                        {[1, 2, 3].map((page) => (
+                            <PaginationItem key={page}>
+                                <PaginationLink
+                                    href="#"
+                                    onClick={() => handlePageChange(page)}
+                                    isActive={pagination.page === page}
+                                >
+                                    {page}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+
+                        <PaginationItem>
+                            <PaginationEllipsis/>
+                        </PaginationItem>
+
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() => handlePageChange(pagination.page + 1)}
+                                href="#"
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default HandlebarAndStem;

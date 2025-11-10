@@ -8,14 +8,13 @@ import Header8 from "./../../../public/images/topeak.png";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
-type Props = {};
+import {Link} from "react-router";
 
-const Storage = (props: Props) => {
+const Storage = () => {
   return (
     <div>
       <div>
@@ -32,9 +31,9 @@ const Storage = (props: Props) => {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="text-white" href="/">
+                      <Link className="text-white" to="/">
                         HOME
-                      </BreadcrumbLink>
+                      </Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -62,7 +61,7 @@ const Storage = (props: Props) => {
                 <div className="col-span-1 bg-orange-400 p-5 rounded-lg m-5">
                   <h2 className="text-gray-100 text-md">
                     Storage of a bicycle for 6 months from October to April for
-                    only 50 000 KRW.
+                    only 5000 USD.
                   </h2>
                   <span className="text-gray-100">
                     _________________________________

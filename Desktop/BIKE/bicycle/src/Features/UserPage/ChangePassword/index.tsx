@@ -1,6 +1,5 @@
-type Props = {};
 
-const index = (props: Props) => {
+const index = () => {
   return (
     <div>
       <div>

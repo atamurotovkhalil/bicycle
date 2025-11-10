@@ -7,9 +7,7 @@ import Header6 from "./../../../public/images/sram.png";
 import Header7 from "./../../../public/images/shimano.png";
 import Header8 from "./../../../public/images/topeak.png";
 import { Link } from "react-router";
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
   return (
     <div className="bg-black">
       <div className="">

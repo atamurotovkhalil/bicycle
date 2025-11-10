@@ -4,7 +4,7 @@ import { SiSellfy } from "react-icons/si";
 import { Link } from "react-router";
 
 export interface User {
-  user: any;
+  user: User;
   firstname: string;
   lastname: string;
   password: string;
@@ -61,7 +61,7 @@ function reducer(state: any, action: any) {
   }
 }
 
-const index = () => {
+const Index = () => {
   const [user, dispatch] = useReducer(reducer, initialUserState);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,12 +70,6 @@ const index = () => {
     // Check validation before submission
     if (user.firstnameIsValid && user.lastnameIsValid && user.passwordIsValid && user.emailIsValid) {
       try {
-        let memberType = "";
-        if (user.username === "WEBSITE_ADMIN") {
-          memberType = "ADMIN";
-        } else {
-          memberType = "USER";
-        }
         const response = await fetch("http://localhost:8080/members/register", {
           method: "POST",
           headers: {
@@ -237,4 +231,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

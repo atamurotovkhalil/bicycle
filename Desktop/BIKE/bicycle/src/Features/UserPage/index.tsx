@@ -1,13 +1,8 @@
-import { Link } from "react-router";
-import OrderHistory from "./OrderHistory/index";
 import Personal from "./Personal/index";
 import ChangePassword from "./ChangePassword/index";
-import MyFavourites from "./MyFavourites/index";
 import { useState } from "react";
-import Cart from "../Signup&Login/Cart/Cart";
-type Props = {};
 
-const index = (props: Props) => {
+const Index = () => {
   const [component, setComponent] = useState(0);
 
   const renderComponent = () => {
@@ -16,8 +11,6 @@ const index = (props: Props) => {
         return <Personal />;
       case 1:
         return <ChangePassword />;
-      case 2:
-        return <MyFavourites />;
     }
   };
   const logOut = () => {
@@ -60,13 +53,6 @@ const index = (props: Props) => {
 
               <button
                 className="m-3 w-full text-center bg-slate-100 rounded-lg py-3 px-4 hover:bg-orange-600"
-                onClick={() => setComponent(2)}
-              >
-                My Favourites
-              </button>
-
-              <button
-                className="m-3 w-full text-center bg-slate-100 rounded-lg py-3 px-4 hover:bg-orange-600"
                 onClick={logOut}
               >
                 Logout
@@ -80,4 +66,4 @@ const index = (props: Props) => {
   );
 };
 
-export default index;
+export default Index;

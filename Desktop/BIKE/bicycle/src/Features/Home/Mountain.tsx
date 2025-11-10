@@ -4,9 +4,8 @@ import Vec2 from "./../../../public/Mountain/Vector2.png";
 import Vec3 from "./../../../public/Mountain/Vector3.1.png";
 import Vec4 from "./../../../public/Mountain/Vector4.png";
 import Vel1 from "./../../../public/Mountain/vel1.jpeg";
-type Props = {};
 
-const Mountain = (props: Props) => {
+const Mountain = () => {
   return (
     <div className="container">
       <div>

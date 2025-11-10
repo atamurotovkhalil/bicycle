@@ -1,7 +1,6 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -11,9 +10,9 @@ import { FaTwitter } from "react-icons/fa";
 import { FaPinterest } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
-type Props = {};
+import {Link} from "react-router";
 
-const BlogDetail = (props: Props) => {
+const BlogDetail = () => {
   return (
     <div>
       <div>
@@ -27,15 +26,15 @@ const BlogDetail = (props: Props) => {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="text-black" href="/">
+                      <Link className="text-black" to="/">
                         HOME
-                      </BreadcrumbLink>
+                      </Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="text-black" href="/">
+                      <Link className="text-black" to="/blog">
                         BLOG
-                      </BreadcrumbLink>
+                      </Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

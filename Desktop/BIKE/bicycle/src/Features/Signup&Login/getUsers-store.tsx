@@ -2,74 +2,69 @@ import { User } from "@/Shared/Types/Member";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-interface Users {
-  user: User | null;
-  users: User[] | null;
-  setUser: (user: User | null) => void;
-  fetchAllUsersData: (searchType: string, searchTerm: string) => Promise<void>;
-  fetchUserData: () => Promise<void>;
+export interface UserStore {
+    user: User | null;
+    users: User[] | null;
+    setUser: (user: User | null) => void;
+    fetchAllUsersData: () => Promise<void>;
+    fetchUserData: () => Promise<void>;
 }
 
-export const useUserStore = create<Users>()(
-  devtools((set) => ({
-    user: null,
-    users: null,
+const API_BASE_URL = "http://localhost:8080/members";
 
-    setUser: (user) => set({ user }),
+export const useUserStore = create<UserStore>()(
+    devtools((set => ({
+        user: null,
+        users: null,
 
-    fetchAllUsersData: async (searchType, searchTerm) => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
+        fetchAllUsersData: async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No token found. Please log in again.");
+                return;
+            }
 
-        let url = "http://localhost:8080/members";
-        if (searchTerm) {
-          url += `?${searchType}=${encodeURIComponent(searchTerm)}`;
-        }
+            try {
+                const res = await fetch(API_BASE_URL, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
 
-        const response = await fetch(url, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
+                if (!res.ok) {
+                    alert(`Failed to fetch users data: ${res.statusText}`);
+                    return;
+                }
 
-        if (response.ok) {
-          const data = await response.json();
-          set({ users: data });
-        } else {
-          console.error("Failed to fetch users data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching users data:", error);
-      }
-    },
+                const data = (await res.json()) as User[];
+                set({ users: data });
+            } catch (err) {
+                console.error("Error fetching users data:", err);
+                alert("An error occurred while fetching users data. Please try again.");
+            }
+        },
 
-    fetchUserData: async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
+        fetchUserData: async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No token found. Please log in again.");
+                return;
+            }
 
-        const response = await fetch("http://localhost:8080/members/principle", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+            try {
+                const res = await fetch(`${API_BASE_URL}/principle`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
 
-        if (response.ok) {
-          const data = await response.json();
-          set({ user: data });
-        } else {
-          console.error("Failed to fetch user data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    },
-  }))
-);
+                if (!res.ok) {
+                    alert(`Failed to fetch user data: ${res.statusText}`);
+                    return;
+                }
+
+                const data = (await res.json()) as User;
+                set({ user: data });
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+                alert("An error occurred while fetching user data. Please try again.");
+            }
+        },
+    }))
+));

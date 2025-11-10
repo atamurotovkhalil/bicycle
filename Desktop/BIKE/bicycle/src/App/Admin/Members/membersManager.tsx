@@ -1,5 +1,5 @@
-import  { useEffect, useState } from "react";
-import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
+import  { useEffect } from "react";
+import {UserStore, useUserStore} from "@/Features/Signup&Login/getUsers-store";
 import { FaSearch } from "react-icons/fa";
 import {
   Pagination,
@@ -12,52 +12,35 @@ import {
 import { User } from "@/Shared/Types/Member";
 
 const MembersManager = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(1);
-  const user = useUserStore((state: any)=>state.user)
-  const fetchUserData = useUserStore((state: any)=>state.fetchUserData)
+  const user : User | null = useUserStore((state: UserStore) : User | null=>state.user)
+  const fetchUserData = useUserStore((state: UserStore)=>state.fetchUserData)
   const users = useUserStore((state)=>state.users)
-  const fetchAllUsersData = useUserStore((state: any)=>state.fetchAllUsersData)
+  const fetchAllUsersData = useUserStore((state: UserStore)=>state.fetchAllUsersData)
 
-  useEffect(() => {
-    fetchAllUsersData();
-    fetchUserData();
-  }, [fetchAllUsersData, fetchUserData]);
-  console.log(users);
-  const searchUsers = (event: any) => {
-    event.preventDefault();
-    fetchAllUsersData("keyword", searchTerm);
-  };
-  function forwardPage() {
-    fetchAllUsersData("keyword", searchTerm);
-    if (Array.isArray(users) && users.length > 0 && page > 0) {
-      setPage(page + 1);
-      fetchAllUsersData("page", page + 1);
-    }
-  }
-  function prevPage() {
-    fetchAllUsersData("keyword", searchTerm);
-    if (Array.isArray(users) && users.length > 0 && page >= 1) {
-      setPage(page - 1);
-      fetchAllUsersData("page", page - 1);
-      console.log(users);
-    }
-  }
-  console.log(user
-  );
+    useEffect(() => {
+        // IIFE (Immediately Invoked Function Expression)
+        (async () => {
+            try {
+                await fetchAllUsersData();
+                await fetchUserData();
+            } catch (err) {
+                console.error("Error loading users:", err);
+            }
+        })();
+    }, [fetchAllUsersData, fetchUserData]);
   //handle activate user
   async function handleActivate(member: User) {
     try {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        throw new Error("No token found. Please log in.");
+        alert("No token found. Please log in.");
       }
-      if (member.status === "ACTIVE_USER") {
+      if (member.status === "ACTIVE") {
         const blockUser = window.confirm(
           "Are you sure you want to block this user?"
         );
-        if (blockUser === true) {
+        if (blockUser) {
           const response = await fetch(
             `http://localhost:3000/auth/userupdate/${member.id}`,
             {
@@ -66,12 +49,12 @@ const MembersManager = () => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ status: "BLOCK_USER" }),
+              body: JSON.stringify({ status: "BLOCK" }),
             }
           );
           if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(
+            alert(
               `Failed to activate member: ${
                 errorData.message || response.statusText
               }`
@@ -82,7 +65,7 @@ const MembersManager = () => {
         const activeUser = window.confirm(
           "Are you sure you want to activate this user?"
         );
-        if (activeUser === true) {
+        if (activeUser) {
           const response = await fetch(
             `http://localhost:3000/auth/userupdate/${member.id}`,
             {
@@ -91,12 +74,12 @@ const MembersManager = () => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ status: "ACTIVE_USER" }),
+              body: JSON.stringify({ status: "ACTIVE" }),
             }
           );
           if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(
+            alert(
               `Failed to activate member: ${
                 errorData.message || response.statusText
               }`
@@ -104,11 +87,15 @@ const MembersManager = () => {
           }
         }
       }
-      fetchAllUsersData();
+      await fetchAllUsersData();
 
       console.log(`Member with ID ${member.id} was successfully activated.`);
-    } catch (err: any) {
-      console.error("Failed to activate member:", err.message || err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Failed to activate member:", err.message);
+        } else {
+            console.error("Failed to activate member:", String(err));
+        }
     }
   }
 
@@ -117,26 +104,26 @@ const MembersManager = () => {
     const deleteUser = window.confirm(
       `Are you sure you want to delete member with id ${id}?`
     );
-    if (deleteUser === true) {
+    if (deleteUser) {
       try {
         const token = localStorage.getItem("token");
 
         if (!token) {
-          throw new Error("No token found. Please log in.");
+          alert("No token found. Please log in.");
         }
 
-        const response = await fetch(`http://localhost:3000/auth/deleteUser/${id}`, {
+        const response = await fetch(`http://localhost:8080/members/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-        fetchAllUsersData();
+        await fetchAllUsersData();
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(
+          alert(
             `Failed to delete member: ${
               errorData.message || response.statusText
             }`
@@ -144,8 +131,12 @@ const MembersManager = () => {
         }
 
         console.log(`Member with ID ${id} was successfully deleted.`);
-      } catch (err: any) {
-        console.error("Failed to delete user:", err.message || err);
+      } catch (err: unknown) {
+          if (err instanceof Error) {
+              console.error("Failed to delete member:", err.message);
+          } else {
+              console.error("Failed to delete member:", String(err));
+          }
       }
     }
   }
@@ -158,11 +149,9 @@ const MembersManager = () => {
         <div className="w-[200px] flex">
           <input
             type="text"
-            onChange={(e) => setSearchTerm(e.target.value)}
             className=" border border-black rounded-md"
           ></input>
           <button
-            onClick={searchUsers}
             className="border border-primary rounded-md bg-primary text-white text-sm hover:bg-primary-dark duration-75"
           >
             <FaSearch className="text-sm bg-primary text-white  m-2" />
@@ -242,16 +231,16 @@ const MembersManager = () => {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <button disabled={page === 1}>
-              <PaginationPrevious onClick={() => prevPage()} />
+            <button >
+              <PaginationPrevious  />
             </button>
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink>{page}</PaginationLink>
+            <PaginationLink>{}</PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <button disabled={users?.length === 0}>
-              <PaginationNext onClick={() => forwardPage()} />
+              <PaginationNext  />
             </button>
           </PaginationItem>
         </PaginationContent>

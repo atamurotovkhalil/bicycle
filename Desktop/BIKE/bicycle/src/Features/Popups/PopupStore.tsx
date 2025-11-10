@@ -1,28 +1,41 @@
 import { create } from "zustand";
+import {SpareParts} from "@/Shared/Types/SpareParts.ts";
 
-export const usePopupStore = create((set) => ({
-  detailPopup: false,
-  product: {},
-  popup: false,
-  setPopup: (state: any) => set({ popup: state }),
-  closePopup: () => set({ popup: false }),
-  // confirm: () => {
-  //   set({ popup: true });
-  //   setTimeout(() => {
-  //     set({ popup: false });
-  //   }, 1500);
-  // },
-  confirmedOrder: () => {
-    set({ popup: true });
-    set({ detailPopup: false });
-  },
-  confirmDetail: (product: any) => {
-    set({ detailPopup: true });
-    set({ product: product });
-    set({popup: false})
-  },
-  closeDetail: () => {
-    set({ detailPopup: false });
-  }
+export interface PopupStore {
+    detailPopup: boolean;
+    popup: boolean;
+    product: SpareParts | null;
+    setPopup: (state: boolean) => void;
+    closePopup: () => void;
+    confirmOrder: () => void;
+    confirmDetail: (product: SpareParts) => void;
+    closeDetail: () => void;
+}
 
+export const usePopupStore = create<PopupStore>((set) => ({
+    detailPopup: false,
+    popup: false,
+    product: null,
+
+    setPopup: (state: boolean) => set({ popup: state }),
+
+    closePopup: () => set({ popup: false }),
+
+    confirmOrder: () =>
+        set({
+            popup: true,
+            detailPopup: false,
+        }),
+
+    confirmDetail: (product: SpareParts | null) =>
+        set({
+            detailPopup: true,
+            product,
+            popup: false,
+        }),
+
+    closeDetail: () =>
+        set({
+            detailPopup: false,
+        }),
 }));

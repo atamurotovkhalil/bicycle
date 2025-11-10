@@ -3,10 +3,7 @@ import vel1 from "./../../../public/Latest/vel1.png";
 import vel2 from "./../../../public/Latest/vel2.png";
 import vel3 from "./../../../public/Latest/vel3.png";
 import vel4 from "./../../../public/Latest/vel4.png";
-
-type Props = {};
-
-const Latest = (props: Props) => {
+const Latest = () => {
   return (
     <div>
       <div>

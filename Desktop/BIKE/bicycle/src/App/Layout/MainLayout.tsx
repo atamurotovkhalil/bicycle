@@ -1,9 +1,8 @@
 import Navbar from "../../Widgets/Navbar";
 import Footer from "../../Widgets/Footer";
 import { Outlet } from "react-router";
-type Props = {}
 
-const MainLayout = (props: Props) => {
+const MainLayout = () => {
   return (
     <div>
         <Navbar />

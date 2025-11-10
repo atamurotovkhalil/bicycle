@@ -8,15 +8,14 @@ import Header8 from "./../../../public/images/topeak.png";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
 import { FaCheck } from "react-icons/fa6";
-type Props = {};
+import {Link} from "react-router";
 
-const Guarantees = (props: Props) => {
+const Guarantees = () => {
   return (
     <div>
       <div>
@@ -33,9 +32,9 @@ const Guarantees = (props: Props) => {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="text-white" href="/">
+                      <Link className="text-white" to="/">
                         HOME
-                      </BreadcrumbLink>
+                      </Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

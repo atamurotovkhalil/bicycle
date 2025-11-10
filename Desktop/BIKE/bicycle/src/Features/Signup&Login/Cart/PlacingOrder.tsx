@@ -6,12 +6,12 @@ import {
   BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
 import { useState } from "react";
-import { FaWonSign } from "react-icons/fa";
-import { usePopupStore } from "@/Features/Popups/PopupStore";
-type Props = {};
+import { FaDollarSign } from "react-icons/fa";
+import {PopupStore, usePopupStore} from "@/Features/Popups/PopupStore";
+import {Link} from "react-router";
 
-const PlacingOrder = (props: Props) => {
-  const confirmedOrder = usePopupStore((state: any) => state.confirmedOrder);
+const PlacingOrder = () => {
+  const confirmedOrder = usePopupStore((state: PopupStore) => state.confirmOrder);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,9 +38,9 @@ const PlacingOrder = (props: Props) => {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink className="text-white-600" href="/">
+                <Link className="text-white-600" to="/">
                   HOME
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -234,7 +234,7 @@ const PlacingOrder = (props: Props) => {
                   <div className="flex justify-between items-center mt-4">
                     <p className="font-semibold">Total 3 products</p>
                     <p className="text-xl font-bold">1 230 000 </p>
-                    <FaWonSign />
+                    <FaDollarSign />
                   </div>
 
                   <button

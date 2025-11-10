@@ -1,6 +1,4 @@
-import { CiSearch } from "react-icons/ci";
 import { GoPerson } from "react-icons/go";
-import { AiOutlineHeart } from "react-icons/ai";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { TbMenuDeep } from "react-icons/tb";
 import { PiBicycleBold } from "react-icons/pi";
@@ -13,20 +11,25 @@ import { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Items from "./Items.json";
 import Popup from "@/Features/Popups/Popup";
-import { usePopupStore } from "@/Features/Popups/PopupStore";
-import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
+import {PopupStore, usePopupStore} from "@/Features/Popups/PopupStore";
+import {UserStore, useUserStore} from "@/Features/Signup&Login/getUsers-store";
 
-type Props = {};
 
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const [nav, setNav] = useState(true);
-  const popup = usePopupStore((state: any) => state.popup);
-  const detailPopup = usePopupStore((state: any) => state.detailPopup);
-  const user = useUserStore((state: any) => state.user);
-  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
+  const popup = usePopupStore((state: PopupStore) => state.popup);
+  const detailPopup = usePopupStore((state: PopupStore) => state.detailPopup);
+  const user = useUserStore((state: UserStore) => state.user);
+  const fetchUserData = useUserStore((state: UserStore) => state.fetchUserData);
 
   useEffect(() => {
-    fetchUserData();
+      (async()=>{
+          try{
+              await fetchUserData();
+          }catch (e) {
+              alert("Failed to fetch user data" + e);
+          }
+      })()
   }, [fetchUserData]);
   return (
     <div className="bg-black text-white p-2">
@@ -130,17 +133,9 @@ const Navbar = (props: Props) => {
           </div>
           <div className="">
             <button className=" hover:text-warning text-white font-bold py-2 px-3  rounded">
-              <Link to="/mountainbikes">
-                <CiSearch className="text-[16px]" />
-              </Link>
-            </button>
-            <button className=" hover:text-warning text-white font-bold py-2 px-3  rounded">
               <Link to={user? "/mypage" : "/signup" }>
                 <GoPerson className="text-[16px]" />
               </Link>
-            </button>
-            <button className=" hover:text-warning text-white font-bold py-2 px-3  rounded">
-              <AiOutlineHeart className="text-[16px]" />
             </button>
             <button className=" hover:text-warning text-white font-bold py-2 px-3  rounded">
               <Link to="/cart">

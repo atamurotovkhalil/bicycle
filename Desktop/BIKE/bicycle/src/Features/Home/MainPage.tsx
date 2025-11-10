@@ -9,9 +9,7 @@ import Mountain from "./Mountain";
 import New from "./New";
 import Nothing from "./Nothing";
 
-type Props = {};
-
-const MainPage = (props: Props) => {
+const MainPage = () => {
   return (
     <div>
       <Header />

@@ -4,9 +4,8 @@ import { IoIosPhonePortrait } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { FaRegMessage } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
-type Props = {};
 
-const Contact = (props: Props) => {
+const Contact = () => {
   return (
     <div>
       <div className="container">

@@ -14,14 +14,12 @@ import { FaCheck } from "react-icons/fa6";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
-type Props = {};
-
-const AboutUs = (props: Props) => {
+import {Link} from "react-router";
+const AboutUs = () => {
   return (
     <div>
       <div>
@@ -37,9 +35,9 @@ const AboutUs = (props: Props) => {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink className="text-white" href="/">
+                    <Link className="text-white" to="/">
                       HOME
-                    </BreadcrumbLink>
+                    </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>

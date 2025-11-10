@@ -1,13 +1,12 @@
 import Good1 from "./../../../public/Good/Good1.png";
-import { FaWonSign } from "react-icons/fa6";
+import { FaDollarSign } from "react-icons/fa6";
 import news1 from "./../../../public/Good/vel1.png";
 import news2 from "./../../../public/Good/vel2.png";
 import news3 from "./../../../public/Good/vel3.png";
 import flag1 from "./../../../public/images/italyflag.png";
 import flag2 from "./../../../public/images/americaflag.png";
-type Props = {};
 
-const Good = (props: Props) => {
+const Good = () => {
   return (
     <div className="bg-black">
       <div
@@ -55,8 +54,8 @@ const Good = (props: Props) => {
 
               {/* Price */}
               <div className="mt-3 mx-3 flex items-center gap-3">
-                <FaWonSign className="text-gray-600 text-lg" />
-                <span className="font-medium">889 000 KRW</span>
+                <FaDollarSign className="text-gray-600 text-lg" />
+                <span className="font-medium">800 USD</span>
               </div>
             </div>
 
@@ -90,8 +89,8 @@ const Good = (props: Props) => {
 
               {/* Price */}
               <div className="mt-3 mx-3 flex items-center gap-3">
-                <FaWonSign className="text-gray-600 text-lg" />
-                <span className="font-medium">990 000 KRW</span>
+                <FaDollarSign className="text-gray-600 text-lg" />
+                <span className="font-medium">9 000 USD</span>
               </div>
             </div>
             <div className="col-span-1 drop-shadow-xl bg-white border rounded-l-xl group relative">
@@ -124,8 +123,8 @@ const Good = (props: Props) => {
 
               {/* Price */}
               <div className="mt-3 mx-3 flex items-center gap-3">
-                <FaWonSign className="text-gray-600 text-lg" />
-                <span className="font-medium">1 180 000 KRW</span>
+                <FaDollarSign className="text-gray-600 text-lg" />
+                <span className="font-medium">1 100 USD</span>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaWonSign } from "react-icons/fa6";
+import { FaDollarSign } from "react-icons/fa6";
 import flag1 from "./../../../../public/images/italyflag.png";
 import flag2 from "./../../../../public/images/americaflag.png";
 import new1 from "./../../../../public/ProductDetails/vel1.png";
@@ -9,7 +9,6 @@ import new4 from "./../../../../public/ProductDetails/vel4.jpeg";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -27,35 +26,43 @@ import {
   CarouselPrevious,
 } from "@/Components/UI/carousel";
 import deliver from "./../../../../public/ProductDetails/deliver.jpeg";
-import { usePopupStore } from "@/Features/Popups/PopupStore";
-import { useProductStore } from "../store/bikes-store";
+import {PopupStore, usePopupStore} from "@/Features/Popups/PopupStore";
+import {BikeStore, useProductStore} from "../store/bikes-store";
 import { BikeDTO } from "@/Shared/Types/Product";
 import { Link, useParams } from "react-router";
 import { server_api } from "@/Shared/Lib/config";
-import { useAddToCartStore } from "@/Pages/addToCartStore";
-import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
+import {AddToCartStore, useAddToCartStore} from "@/Pages/addToCartStore";
+import {UserStore, useUserStore} from "@/Features/Signup&Login/getUsers-store";
 
-type Props = {};
+export interface Images{
+    extension: string,
+    id: string,
+    originName: string,
+    path: string,
+    size: 0,
+    storageName: string,
+}
 
-const ProductDetail = (props: Props) => {
+const ProductDetail = () => {
   const [count, setCount] = useState(0);
-  const confirmedOrder = usePopupStore((state: any) => state.confirmedOrder);
-  const fetchProducts = useProductStore((state: any) => state.fetchProducts);
-  const products = useProductStore((state: any) => state.products);
-  const addToCart = useAddToCartStore((state: any) => state.addToCart);
-  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
-  const user = useUserStore((state: any) => state.user);
+  const confirmedOrder = usePopupStore((state: PopupStore) => state.confirmOrder);
+  const fetchProducts = useProductStore((state: BikeStore) => state.fetchProducts);
+  const products = useProductStore((state: BikeStore) => state.products);
+  const addToCart = useAddToCartStore((state: AddToCartStore) => state.addToCart);
+  const fetchUserData = useUserStore((state: UserStore) => state.fetchUserData);
   const { fetchCartData } = useAddToCartStore();
 
 
     useEffect(() => {
-    fetchProducts();
-    fetchUserData();
+        (async()=>{
+          await fetchUserData();
+        })()
+
   }, [fetchProducts, fetchUserData]);
   const productId = useParams();
 
-  const product = products.find((p: BikeDTO) => p.id === productId.id);
-  const [img, setImg] = useState({
+  const product  = products.find((p: BikeDTO) => p.id === productId.id);
+  const [img, setImg] = useState<Images>({
     extension: "",
     id: "",
     originName: "",
@@ -65,14 +72,16 @@ const ProductDetail = (props: Props) => {
   });
 
 
-  const setOrder = async(product: BikeDTO) => {
-    await addToCart(product.id);
-    confirmedOrder(product);
-    await fetchCartData();
-    confirmedOrder();
-  };
+    const setOrder = async (product?: BikeDTO) => {
+        if (!product) return; // Prevent errors
+        await addToCart(product.id);
+        confirmedOrder();
+        await fetchCartData();
+        confirmedOrder();
+    };
 
-  return (
+
+    return (
     <div className="container">
       <div className="">
         <div className="">
@@ -80,9 +89,9 @@ const ProductDetail = (props: Props) => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink className="text-white-600" href="/">
+                  <Link className="text-white-600" to="/">
                     HOME
-                  </BreadcrumbLink>
+                  </Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
@@ -109,9 +118,9 @@ const ProductDetail = (props: Props) => {
                   src={
                     img.id ===""
                       ? `${server_api.replace(/\/$/, "")}/${encodeURI(
-                          product?.images[0]?.path
+                          product?.images[0]?.path as string
                         )}/${encodeURIComponent(
-                          product?.images[0]?.storageName
+                          product?.images[0]?.storageName as string
                         )}`
                       : `${server_api.replace(/\/$/, "")}/${encodeURI(
                           img.path
@@ -129,7 +138,7 @@ const ProductDetail = (props: Props) => {
                 >
                   <CarouselContent>
                     {product?.images
-                    .map((image: any, index: number) => (
+                    .map((image: Images, index: number) => (
                       <CarouselItem
                         key={index}
                         onClick={() => setImg(image)}
@@ -171,25 +180,24 @@ const ProductDetail = (props: Props) => {
                       <div className="flex justify-evenly items-center gap-1 p-2">
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
                           <Link
-                            //to="https://www.google.com"
-                            to={product?.socialNetworks?.website}
+                            to={`${product?.socialNetworks?.website}`}
                           >
                             <CgWebsite className="text-xl text-black" />
                           </Link>
                         </div>
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
-                          <Link to={product?.socialNetworks[1]}>
+                          <Link to={`${product?.socialNetworks.facebook}`}>
                             <FaFacebook className="text-xl text-black" />
                           </Link>
                         </div>
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
-                          <Link to={product?.socialNetworks?.twitter}>
+                          <Link to={`${product?.socialNetworks?.twitter}`}>
                             <FaTwitter className="text-xl text-black" />
                           </Link>
                         </div>
 
                         <div className="  w-10 h-10 cursor-pointer hover:w-11 hover:h-11 transition-all duration-300">
-                          <Link to={product?.socialNetworks[0]}>
+                          <Link to={`${product?.socialNetworks.instagram}`}>
                             <FaInstagramSquare className="text-xl text-black" />
                           </Link>
                         </div>
@@ -205,10 +213,7 @@ const ProductDetail = (props: Props) => {
                   </p>
                 </div>
                 <div className="flex my-5 justify-between items-center">
-                  <p className="text-4xl">{product?.price} KRW</p>
-                  {/* <p className="text-sm line-through  text-gray-600">
-                    1 000 000 KRW
-                  </p> */}
+                  <p className="text-4xl">{product?.price} USD</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">
@@ -316,9 +321,9 @@ const ProductDetail = (props: Props) => {
                   </button>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">
-                    Estimated price: {product?.price * count}
-                  </p>
+                    <p className="text-sm text-gray-600">
+                        Estimated price: {(product?.price ?? 0) * count}
+                    </p>
                 </div>
               </div>
             </div>
@@ -357,13 +362,13 @@ const ProductDetail = (props: Props) => {
             <div className="flex justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Wheel Diameter</p>
               <p className="text-gray-600 text-md m-4">
-                {product?.wheeldiameter}
+                {product?.wheelDiameter}
               </p>
             </div>
             <div className="flex bg-gray-100 justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Frame Material</p>
               <p className="text-gray-600 text-md m-4">
-                {product?.framematerial}
+                {product?.frameMaterial}
               </p>
             </div>
             <div className="flex justify-between items-center gap-2">
@@ -394,7 +399,7 @@ const ProductDetail = (props: Props) => {
             </div>
             <div className="flex  justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Brake Type</p>
-              <p className="text-gray-600 text-md m-4">{product?.braketype}</p>
+              <p className="text-gray-600 text-md m-4">{product?.brakeType}</p>
             </div>
             <div className="flex bg-gray-100 justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Chain</p>
@@ -403,7 +408,7 @@ const ProductDetail = (props: Props) => {
             <div className="flex  justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Number of Speeds</p>
               <p className="text-gray-600 text-md m-4">
-                {product?.numberofspeeds}
+                {product?.numberOfSpeeds}
               </p>
             </div>
 
@@ -429,7 +434,7 @@ const ProductDetail = (props: Props) => {
           className="text-xl text-black mx-5 my-10"
           style={{ lineHeight: 1.5 }}
         >
-          For the convinient of customers. there are several methods of delivery
+          For the convenient of customers. there are several methods of delivery
           of goods
         </p>
         <li className="text-md mx-2 my-5 list-disc">
@@ -505,8 +510,8 @@ const ProductDetail = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium text-orange-700">889 000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium text-orange-700">8 800 USD</span>
             </div>
           </div>
 
@@ -540,8 +545,8 @@ const ProductDetail = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium text-orange-700">990 000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium text-orange-700">9000 USD</span>
             </div>
           </div>
           <div className="col-span-1 drop-shadow-xl bg-white border rounded-xl group relative">
@@ -574,8 +579,8 @@ const ProductDetail = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium text-orange-700">1 180 000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium text-orange-700">1 180 USD</span>
             </div>
           </div>
           <div className="col-span-1 drop-shadow-xl bg-white border rounded-xl group relative">
@@ -608,8 +613,8 @@ const ProductDetail = (props: Props) => {
 
             {/* Price */}
             <div className="mt-3 mx-3 flex items-center gap-3">
-              <FaWonSign className="text-gray-600 text-lg" />
-              <span className="font-medium text-orange-700">990 000 KRW</span>
+              <FaDollarSign className="text-gray-600 text-lg" />
+              <span className="font-medium text-orange-700">9000 USD</span>
             </div>
           </div>
         </div>

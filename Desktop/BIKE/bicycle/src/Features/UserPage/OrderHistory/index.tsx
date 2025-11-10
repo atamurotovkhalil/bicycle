@@ -4,13 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/Components/UI/accordion";
-import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { FaWonSign } from "react-icons/fa6";
-type Props = {};
+import { FaDollarSign } from "react-icons/fa6";
 
-const index = (props: Props) => {
-  const [count, setCount] = useState(0);
+const index = () => {
   return (
     <div className="">
       <div>
@@ -41,7 +38,7 @@ const index = (props: Props) => {
                   <div className="flex items-center justify-between w-full">
                     <p>12.01.2025</p>
                     <p>643769837483</p>
-                    <p>7 874 000 KRW</p>
+                    <p>700 USD</p>
                     <p>New Order</p>
                   </div>
                 </AccordionTrigger>
@@ -63,9 +60,9 @@ const index = (props: Props) => {
 
                     {/* Price */}
                     <div className="mt-3 mx-3 flex items-center gap-3">
-                      <FaWonSign className="text-gray-600 text-lg" />
+                      <FaDollarSign className="text-gray-600 text-lg" />
                       <span className="font-medium text-orange-700">
-                        889 000 KRW
+                        8000 USD
                       </span>
                     </div>
                     <div className="mt-3 mx-3 flex items-center gap-3">
@@ -92,9 +89,9 @@ const index = (props: Props) => {
 
                     {/* Price */}
                     <div className="mt-3 mx-3 flex items-center gap-3">
-                      <FaWonSign className="text-gray-600 text-lg" />
+                      <FaDollarSign className="text-gray-600 text-lg" />
                       <span className="font-medium text-orange-700">
-                        889 000 KRW
+                        8 890 USD
                       </span>
                     </div>
                     <div className="mt-3 mx-3 flex items-center gap-3">
@@ -120,9 +117,9 @@ const index = (props: Props) => {
 
                     {/* Price */}
                     <div className="mt-3 mx-3 flex items-center gap-3">
-                      <FaWonSign className="text-gray-600 text-lg" />
+                      <FaDollarSign className="text-gray-600 text-lg" />
                       <span className="font-medium text-orange-700">
-                        889 000 KRW
+                        8 800 USD
                       </span>
                     </div>
                     <div className="mt-3 mx-3 flex items-center gap-3">
@@ -156,7 +153,7 @@ const index = (props: Props) => {
                   <div className="flex items-center justify-between w-full">
                     <p>12.12.2024</p>
                     <p>643762347483</p>
-                    <p>8 879 000 KRW</p>
+                    <p>8 000 USD</p>
                     <p>Completed Orders</p>
                   </div>
                 </AccordionTrigger>
@@ -178,9 +175,9 @@ const index = (props: Props) => {
 
                     {/* Price */}
                     <div className="mt-3 mx-3 flex items-center gap-3">
-                      <FaWonSign className="text-gray-600 text-lg" />
+                      <FaDollarSign className="text-gray-600 text-lg" />
                       <span className="font-medium text-orange-700">
-                        889 000 KRW
+                        880 USD
                       </span>
                     </div>
                     <div className="mt-3 mx-3 flex items-center gap-3">
@@ -207,9 +204,9 @@ const index = (props: Props) => {
 
                     {/* Price */}
                     <div className="mt-3 mx-3 flex items-center gap-3">
-                      <FaWonSign className="text-gray-600 text-lg" />
+                      <FaDollarSign className="text-gray-600 text-lg" />
                       <span className="font-medium text-orange-700">
-                        889 000 KRW
+                        8890 USD
                       </span>
                     </div>
                     <div className="mt-3 mx-3 flex items-center gap-3">
@@ -235,9 +232,9 @@ const index = (props: Props) => {
 
                     {/* Price */}
                     <div className="mt-3 mx-3 flex items-center gap-3">
-                      <FaWonSign className="text-gray-600 text-lg" />
+                      <FaDollarSign className="text-gray-600 text-lg" />
                       <span className="font-medium text-orange-700">
-                        889 000 KRW
+                        8890 USD
                       </span>
                     </div>
                     <div className="mt-3 mx-3 flex items-center gap-3">

@@ -8,14 +8,13 @@ import Header8 from "./../../../public/images/topeak.png";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
-type Props = {};
+import {Link} from "react-router";
 
-const Agreement = (props: Props) => {
+const Agreement = () => {
   return (
     <div>
       <div className="container">
@@ -23,9 +22,9 @@ const Agreement = (props: Props) => {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink className="text-gray-600" href="/">
+                <Link className="text-gray-600" to="/">
                   HOME
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

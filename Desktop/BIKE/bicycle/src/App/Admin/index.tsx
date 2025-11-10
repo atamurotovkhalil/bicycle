@@ -1,21 +1,26 @@
 import { useState, useEffect, useMemo } from "react";
 import Members from "./Members/index";
 import Products from "./Products/index";
-import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
+import {UserStore, useUserStore} from "@/Features/Signup&Login/getUsers-store";
 import { Link } from "react-router";
-import { server_api } from "./../../Shared/Lib/config";
 import SpareParts from "./SpareParts/index";
 import AddProduct from "./AddProduct";
 import AddSpareParts from "./AddSpareParts";
 
 export default function AdminPage() {
-  const user = useUserStore((state: any) => state.user);
-  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
+  const user = useUserStore((state: UserStore) => state.user);
+  const fetchUserData = useUserStore((state: UserStore) => state.fetchUserData);
   const [showComponent, setShowComponent] = useState(0);
 
   useEffect(() => {
-    fetchUserData();
-  }, []);
+      ( async()=>{
+          try{
+              await fetchUserData();
+          } catch(e: unknown){
+              alert("Error fetching user data" + e);
+          }
+      })()
+  }, [fetchUserData]);
 
   // Memoized component rendering
   const RenderComponent = useMemo(() => {
@@ -31,17 +36,9 @@ export default function AdminPage() {
     return components[showComponent] || null;
   }, [showComponent]);
 
-  //   if (user?.memberType !== "ADMIN") {
-  //     return (
-  //       <div className="text-center text-xl font-bold mt-10">
-  //         <p>Only Admins can access this page.</p>
-  //       </div>
-  //     );
-  //   }
-
   return (
     <div
-      key={user?._id}
+      key={user?.id}
       className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-5"
     >
       {/* Sidebar */}
@@ -49,20 +46,12 @@ export default function AdminPage() {
         {/* Admin Info */}
         <div className="flex justify-center items-center gap-3 shadow-md p-3 rounded-xl my-8 w-72 border-b-2 border-primary">
           <img
-            src={
-              user?.memberImages?.[0]
-                ? `${server_api.replace(/\/$/, "")}/${user.memberImages[0]
-                    .split("/")
-                    .map(encodeURIComponent)
-                    .join("/")}`
-                : "default-placeholder.jpg"
-            }
             alt="admin"
             className="w-20 h-20 rounded-full border-4 border-primary"
           />
           <div className="ml-2">
             <p className="text-2xl font-bold text-primary">Admin</p>
-            <p className="text-xl">01068734499</p>
+            <p className="text-xl">01028301155</p>
           </div>
         </div>
 

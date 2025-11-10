@@ -8,7 +8,6 @@ import Header8 from "./../../../public/images/topeak.png";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -19,6 +18,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/Components/UI/accordion";
+import {Link} from "react-router";
 
 const Contact = () => {
   return (
@@ -35,9 +35,9 @@ const Contact = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink className="text-white" href="/">
+                  <Link className="text-white" to="/">
                     HOME
-                  </BreadcrumbLink>
+                  </Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>

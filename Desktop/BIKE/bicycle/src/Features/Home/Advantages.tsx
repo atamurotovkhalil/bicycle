@@ -1,8 +1,7 @@
 import { Link } from "react-router";
 import Adv from "./../../../public/Advantages/Adv1.png";
-type Props = {};
 
-const Advantages = (props: Props) => {
+const Advantages = () => {
   return (
     <div>
       <div>
@@ -13,7 +12,7 @@ const Advantages = (props: Props) => {
         </div>
         <div className="flex justify-between items-center">
           <div>
-            <img className="w-[100%] rounded-r-2xl h-[550px]" src={Adv} />
+            <img alt={"Hi there"} className="w-[100%] rounded-r-2xl h-[550px]" src={Adv} />
           </div>
           <div>
             <div className="grid grid-cols-2">

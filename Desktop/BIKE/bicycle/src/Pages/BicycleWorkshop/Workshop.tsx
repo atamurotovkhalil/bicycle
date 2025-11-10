@@ -8,7 +8,6 @@ import Header8 from "./../../../public/images/topeak.png";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -19,9 +18,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/Components/UI/accordion";
-type Props = {};
+import {Link} from "react-router";
 
-const Workshop = (props: Props) => {
+const Workshop = () => {
   return (
     <div>
       <div
@@ -36,9 +35,9 @@ const Workshop = (props: Props) => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink className="text-white" href="/">
+                  <Link className="text-white" to="/">
                     HOME
-                  </BreadcrumbLink>
+                  </Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
@@ -106,11 +105,11 @@ const Workshop = (props: Props) => {
             </div>
             <div className="flex bg-gray-100 justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Technical service</p>
-              <p className="text-gray-600 text-md m-4">25 000 KRW</p>
+              <p className="text-gray-600 text-md m-4">25 USD</p>
             </div>
             <div className="flex justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Washing</p>
-              <p className="text-gray-600 text-md m-4">15 000 KRW</p>
+              <p className="text-gray-600 text-md m-4">15 USD</p>
             </div>
           </div>
           <div>
@@ -118,11 +117,11 @@ const Workshop = (props: Props) => {
               <p className="text-gray-600 text-md m-4">
                 Comprehensive tech.about service
               </p>
-              <p className="text-gray-600 text-md m-4">50 000 KRW</p>
+              <p className="text-gray-600 text-md m-4">50 USD</p>
             </div>
             <div className="flex justify-between items-center gap-2">
               <p className="text-gray-600 text-md m-4">Individual assembly</p>
-              <p className="text-gray-600 text-md m-4">50 000 - 90 000 KRW</p>
+              <p className="text-gray-600 text-md m-4">50 - 90 USD</p>
             </div>
           </div>
         </div>
@@ -146,7 +145,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Shortening the fork stem
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -154,7 +153,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Install a disposable anchor
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -162,7 +161,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Anchor dismanting
                     </p>
-                    <p className="text-gray-600 text-md m-2">80 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">800 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -170,7 +169,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the air fork
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -178,7 +177,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Single crown fork remove/install
                     </p>
-                    <p className="text-gray-600 text-md m-2">50 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">500 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white  justify-start gap-2 text-[12px]">
@@ -186,7 +185,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the rear shock absorber
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -206,7 +205,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Shortening the fork stem
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -214,7 +213,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Install a disposable anchor
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -222,7 +221,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Anchor dismanting
                     </p>
-                    <p className="text-gray-600 text-md m-2">80 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">800 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -230,7 +229,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the air fork
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -238,7 +237,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Single crown fork remove/install
                     </p>
-                    <p className="text-gray-600 text-md m-2">50 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">500 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white  justify-start gap-2 text-[12px]">
@@ -246,7 +245,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the rear shock absorber
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -266,7 +265,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Shortening the fork stem
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -274,7 +273,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Install a disposable anchor
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -282,7 +281,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Anchor dismanting
                     </p>
-                    <p className="text-gray-600 text-md m-2">80 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">800 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -290,7 +289,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the air fork
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -298,7 +297,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Single crown fork remove/install
                     </p>
-                    <p className="text-gray-600 text-md m-2">50 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">500 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white  justify-start gap-2 text-[12px]">
@@ -306,7 +305,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the rear shock absorber
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -326,7 +325,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Shortening the fork stem
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -334,7 +333,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Install a disposable anchor
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -342,7 +341,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Anchor dismanting
                     </p>
-                    <p className="text-gray-600 text-md m-2">80 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">800 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -350,7 +349,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the air fork
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -358,7 +357,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Single crown fork remove/install
                     </p>
-                    <p className="text-gray-600 text-md m-2">50 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">500 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white  justify-start gap-2 text-[12px]">
@@ -366,7 +365,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the rear shock absorber
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -386,7 +385,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Shortening the fork stem
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -394,7 +393,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Install a disposable anchor
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -402,7 +401,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Anchor dismanting
                     </p>
-                    <p className="text-gray-600 text-md m-2">80 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">800 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -410,7 +409,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the air fork
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -418,7 +417,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Single crown fork remove/install
                     </p>
-                    <p className="text-gray-600 text-md m-2">50 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">500 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white  justify-start gap-2 text-[12px]">
@@ -426,7 +425,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the rear shock absorber
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -446,7 +445,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Shortening the fork stem
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -454,7 +453,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Install a disposable anchor
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -462,7 +461,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Anchor dismanting
                     </p>
-                    <p className="text-gray-600 text-md m-2">80 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">800 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -470,7 +469,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the air fork
                     </p>
-                    <p className="text-gray-600 text-md m-2">60 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">600 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white justify-start gap-2 text-[12px]">
@@ -478,7 +477,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Single crown fork remove/install
                     </p>
-                    <p className="text-gray-600 text-md m-2">50 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">500 USD</p>
                   </div>
                 </AccordionContent>
                 <AccordionContent className="flex items-center bg-white  justify-start gap-2 text-[12px]">
@@ -486,7 +485,7 @@ const Workshop = (props: Props) => {
                     <p className="text-gray-600 text-md m-2">
                       Pumping up the rear shock absorber
                     </p>
-                    <p className="text-gray-600 text-md m-2">30 000 KRW</p>
+                    <p className="text-gray-600 text-md m-2">300 USD</p>
                   </div>
                 </AccordionContent>
               </AccordionItem>

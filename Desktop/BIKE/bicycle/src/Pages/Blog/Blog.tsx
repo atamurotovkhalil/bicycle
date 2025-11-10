@@ -1,15 +1,13 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/Components/UI/breadcrumb";
 import { Link } from "react-router";
-type Props = {};
 
-const Blog = (props: Props) => {
+const Blog = () => {
   return (
     <div>
       <div>
@@ -26,9 +24,9 @@ const Blog = (props: Props) => {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="text-white" href="/">
+                      <Link className="text-white" to="/">
                         HOME
-                      </BreadcrumbLink>
+                      </Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

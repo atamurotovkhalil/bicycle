@@ -4,9 +4,9 @@ import { TbBrandComedyCentral } from "react-icons/tb";
 import { FaLifeRing } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbHours24 } from "react-icons/tb";
-type Props = {};
+import {Link} from "react-router";
 
-const Nothing = (props: Props) => {
+const Nothing = () => {
   return (
     <div>
       <div className="container">
@@ -26,10 +26,10 @@ const Nothing = (props: Props) => {
                 <br /> sports equipment for active sports and <br />
                 recreation
               </p>
-              <button className="my-4  rounded-sm  text-gray-500 text-xl">
+              <Link to={"/mountainbikes"} className="my-4  rounded-sm  text-gray-500 text-xl">
                 {" "}
                 In Detail...{" "}
-              </button>
+              </Link>
             </div>
           </div>
         </div>

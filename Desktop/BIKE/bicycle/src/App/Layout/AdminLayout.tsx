@@ -1,4 +1,3 @@
-import React from "react";
 import { SiSellfy } from "react-icons/si";
 import { Navigate, Outlet } from "react-router";
 import { IoPersonSharp } from "react-icons/io5";

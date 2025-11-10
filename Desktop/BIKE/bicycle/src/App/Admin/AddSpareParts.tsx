@@ -1,307 +1,255 @@
 import React, { useState } from "react";
 
 const categories = [
-  { id: 1, name: "FRAME AND FORKS", value: "frameandforks" },
-  { id: 2, name: "WHEELS AND TIRES", value: "wheelsandtires" },
-  { id: 3, name: "BRAKING SYSTEM", value: "brakingsystem" },
-  { id: 4, name: "DRIVETRAIN", value: "drivetrain" },
-  { id: 5, name: "HANDLEBAR AND STEM", value: "handlebarandstem" },
+    { id: 1, name: "FRAME AND FORKS", value: "FRAME_AND_FORKS" },
+    { id: 2, name: "WHEELS AND TIRES", value: "WHEELS_AND_TIRES" },
+    { id: 3, name: "BRAKING SYSTEM", value: "BRAKING_SYSTEM" },
+    { id: 4, name: "DRIVETRAIN", value: "DRIVETRAIN" },
+    { id: 5, name: "HANDLEBAR AND STEM", value: "HANDLEBAR_AND_STEM" },
 ];
 
-export interface SpareProduct {
-  _id: string;
-  part: string;
-  description: string;
-  types: string;
-  imageUrl: string;
-  manufacturer: string;
-  country: string;
-  warranty: string;
-  price: string;
-  category: string;
-  images: string[];
-  status: string;
-}
-
 const AddSpareParts: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [images, setImages] = useState<File[]>([]);
-  const [product, setProduct] = useState<SpareProduct>({
-    _id: "",
-    part: "",
-    description: "",
-    types: "",
-    imageUrl: "",
-    manufacturer: "",
-    country: "",
-    warranty: "",
-    price: "",
-    category: selectedCategory,
-    images: [] as string[],
-    status: "ACTIVE_PRODUCT",
-  });
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [images, setImages] = useState<File[]>([]);
+    const [previewImages, setPreviewImages] = useState<string[]>([]);
+    const [product, setProduct] = useState({
+        name: "",
+        description: "",
+        manufacturer: "",
+        country: "",
+        warranty: "",
+        price: "",
+        inStock: "",
+        sold: "0",
+        status: "ACTIVE",
+    });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        const { name, value } = e.target;
+        setProduct((prev) => ({ ...prev, [name]: value }));
+    };
 
-    setProduct((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+    console.log(product, selectedCategory)
 
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const fileList = e.target.files; // FileList or null
-      if (fileList) {
-          // Convert FileList to an array of File objects
-          setImages((prevImages) => [
-              ...prevImages,
-              ...Array.from(fileList), // Add selected files to the state
-          ]);
-      }
-  }
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files) return;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
+        const newFiles = Array.from(files);
+        setImages((prev) => [...prev, ...newFiles]);
 
-    // Append product data (ensure numbers are strings)
-    formData.append("part", product.part);
-    formData.append("description", product.description);
-    formData.append("types", product.types);
-    formData.append("category", selectedCategory);
-    formData.append("country", product.country);
-    formData.append("manufacturer", product.manufacturer);
-    formData.append("price", String(product.price)); // ✅ Convert to string
-    formData.append("warranty", product.warranty);
-    formData.append("status", product.status);
+        // Generate preview URLs
+        const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+        setPreviewImages((prev) => [...prev, ...newPreviews]);
+    };
 
-    // ✅ Append multiple images (ensure they are files, not strings)
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images", images[i]); // Field name matches backend
-    }
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedCategory) {
+            alert("Please select a category before submitting.");
+            return;
+        }
 
-    // Debug FormData contents
-    console.log("Submitting Product Data...");
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": ", pair[1]);
-    }
+        const formData = new FormData();
+        Object.entries(product).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+                formData.append("category", selectedCategory);
 
-    try {
-      const response = await fetch("http://localhost:3000/spareparts", {
-        method: "POST",
-        body: formData,
-        headers: {
-          // ❌ REMOVE "Content-Type" - It must be set automatically
-          // "Content-Type": "multipart/form-data",
-          // "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+        images.forEach((img) => formData.append("images", img));
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API Error:", errorData);
-        throw new Error(errorData.message || "Failed to upload product");
-      }
+        console.log("Submitting Product Data...");
+        for (const pair of formData.entries()) {
+            console.log(pair[0], ":", pair[1]);
+        }
 
-      console.log("Product uploaded successfully!");
-    } catch (error: any) {
-      console.error("Error:", error.message);
-    }
-    console.log(product);
-  };
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+            const response = await fetch("http://localhost:8080/spare-parts/add", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: formData,
+            });
 
-  return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6">Add Product</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="part" className="block text-sm font-semibold mb-2">
-              Part
-            </label>
-            <input
-              type="text"
-              id="part"
-              name="part"
-              value={product.part}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="types" className="block text-sm font-semibold mb-2">
-              Types
-            </label>
-            <input
-              type="text"
-              id="types"
-              name="types"
-              value={product.types}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+            if (!response.ok) {
+                const err = await response.text();
+                alert(err || "Failed to upload product");
+            }
+            console.log(response);
 
-          <div>
-            <label
-              htmlFor="manufacturer"
-              className="block text-sm font-semibold mb-2"
-            >
-              Manufacturer
-            </label>
-            <input
-              type="text"
-              id="manufacturer"
-              name="manufacturer"
-              value={product.manufacturer}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div className="w-full max-w-sm mx-auto">
-            <label className="block text-sm font-medium text-gray-700">
-              Select Category
-            </label>
-            <select
-              className="mt-2 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.value}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-            {selectedCategory && (
-              <div className="mt-4 p-2 text-center bg-blue-100 border border-blue-500 rounded-lg">
-                Selected Category:{" "}
-                <span className="font-semibold">{selectedCategory}</span>
-              </div>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="country"
-              className="block text-sm font-semibold mb-2"
-            >
-              Country
-            </label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              value={product.country}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            {/* Image Upload */}
-            <label className="block text-lg font-semibold">Upload Images</label>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
-            />
+            alert("Product uploaded successfully!");
+            setProduct({
+                name: "",
+                description: "",
+                manufacturer: "",
+                country: "",
+                warranty: "",
+                price: "",
+                inStock: "",
+                sold: "0",
+                status: "ACTIVE",
+            });
+            setSelectedCategory("");
+            setImages([]);
+            setPreviewImages([]);
+        } catch (err: unknown) {
+            alert("Upload failed: " + err);
+        }
+    };
 
-            {/* Image Preview */}
-            {product.images.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-3">
-                {product.images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image} // Directly use the image URL string
-                    alt={`Preview ${index}`}
-                    className="w-20 h-20 object-cover rounded-lg border"
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="warranty"
-              className="block text-sm font-semibold mb-2"
-            >
-              Warranty
-            </label>
-            <input
-              type="number"
-              id="warranty"
-              name="warranty"
-              value={product.warranty}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    return (
+        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-6">Add Spare Part</h2>
 
-          {/* Add more fields as required */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {/* --- Product Info --- */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">Name</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={product.name}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">Manufacturer</label>
+                        <input
+                            type="text"
+                            name="manufacturer"
+                            value={product.manufacturer}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md"
+                            required
+                        />
+                    </div>
+
+                    {/* Category */}
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Category</label>
+                        <select
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                            <option value="">Select Category</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.value}>
+                                    {cat.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">Country</label>
+                        <input
+                            type="text"
+                            name="country"
+                            value={product.country}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">Warranty (months)</label>
+                        <input
+                            type="number"
+                            name="warranty"
+                            value={product.warranty}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">Price (₩)</label>
+                        <input
+                            type="number"
+                            name="price"
+                            value={product.price}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold mb-2">In Stock</label>
+                        <input
+                            type="number"
+                            name="inStock"
+                            value={product.inStock}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border rounded-md"
+                            required
+                        />
+                    </div>
+                </div>
+
+                {/* --- Description --- */}
+                <div>
+                    <label className="block text-sm font-semibold mb-2">Description</label>
+                    <textarea
+                        name="description"
+                        value={product.description}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border rounded-md"
+                        rows={4}
+                        required
+                    />
+                </div>
+
+                {/* --- Image Upload --- */}
+                <div>
+                    <label className="block text-sm font-semibold mb-2">Upload Images</label>
+                    <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="w-full p-2 border border-gray-300 rounded-lg"
+                    />
+
+                    {previewImages.length > 0 && (
+                        <div className="flex flex-wrap gap-3 mt-3">
+                            {previewImages.map((src, i) => (
+                                <img
+                                    key={i}
+                                    src={src}
+                                    alt={`Preview ${i}`}
+                                    className="w-20 h-20 object-cover rounded-lg border"
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* --- Submit Button --- */}
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div className="mt-6">
-          <label
-            htmlFor="description"
-            className="block text-sm font-semibold mb-2"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={product.description}
-            onChange={handleTextAreaChange}
-            className="w-full p-2 border rounded-md"
-            rows={4}
-            required
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="">
-            <label htmlFor="price" className="block text-sm font-semibold mb-2">
-              Price
-            </label>
-            <input
-              type="text"
-              id="price"
-              name="price"
-              value={product.price}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="mt-6 flex justify-end">
-          <button
-            type="submit"
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default AddSpareParts;

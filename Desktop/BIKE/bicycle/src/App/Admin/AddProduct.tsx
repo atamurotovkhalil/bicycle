@@ -1,5 +1,4 @@
 import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
-import { User } from "@/Features/Signup&Login/Signup";
 import { BikeDTO, brand, categories, framematerial } from "@/Shared/Types/Product";
 import React, { useState } from "react";
 
@@ -9,7 +8,7 @@ const AddProduct: React.FC = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedFrame, setSelectedFrame] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const {user, fetchUserData} = useUserStore();
+  const {user} = useUserStore();
   const [product, setProduct] = useState<BikeDTO>({
     id: "",
     name: "",
@@ -18,7 +17,7 @@ const AddProduct: React.FC = () => {
     brand: selectedBrand,
     category: selectedCategory,
     wheelDiameter: 0,
-    framematerial: selectedFrame,
+    frameMaterial: selectedFrame,
     size: "",
     country: "",
     manufacturer: "",
@@ -29,7 +28,7 @@ const AddProduct: React.FC = () => {
     fork: "",
     brakeType: "",
     chain: "",
-    numberofSpeeds: 0,
+    numberOfSpeeds: 0,
     warranty: "",
     socialNetworks: {
       website: "",
@@ -37,7 +36,14 @@ const AddProduct: React.FC = () => {
       facebook: "",
       twitter: "",
     },
-    images: [] as string[],
+    images: [{
+        path: "",
+        storageName: "",
+        extension: "",
+        id: "",
+        originName: "",
+        size: 0
+    }],
     status: "ACTIVE",
   });
 
@@ -69,37 +75,19 @@ const AddProduct: React.FC = () => {
     }));
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files; // FileList or null
+    const fileList = e.target.files;
     if (fileList) {
-      // Convert FileList to an array of File objects
       setImages((prevImages) => [
         ...prevImages,
-        ...Array.from(fileList), // Add selected files to the state
+        ...Array.from(fileList),
       ]);
     }
   };
-  //   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const files = e.target.files; // Files selected in the input
-
-  //     if (files) {
-  //       // Convert FileList to an array and create object URLs
-  //       const fileArray = Array.from(files);
-  //       const imageUrl = URL.createObjectURL(fileArray[0]); // Create a URL for the first file
-
-  //       //setImages(imageUrl); // Assuming setImages expects a single image URL string
-
-  //       setProduct((prev) => ({
-  //         ...prev,
-  //         Images: [...prev.images, ...fileArray], // Append files (as an array) to the product
-  //       }));
-  //     }
-  //   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
 
-    // Append product data (ensure numbers are strings)
     formData.append("name", product.name);
     formData.append("color", product.color);
     formData.append("brand", selectedBrand);
@@ -118,39 +106,28 @@ const AddProduct: React.FC = () => {
     formData.append("price", String(product.price));
     formData.append("brakeType", product.brakeType);
     formData.append("chain", product.chain);
-    formData.append("numberOfSpeeds", String(product.numberofSpeeds)); // ✅ Convert to string
+    formData.append("numberOfSpeeds", String(product.numberOfSpeeds)); // ✅ Convert to string
     formData.append("warranty", product.warranty);
     formData.append("status", product.status);
 
     // Append social networks as JSON string
-    formData.append("socialnetworks[website]", product.socialNetworks.website);
+    formData.append("socialNetworks[website]", product.socialNetworks.website);
     formData.append(
-      "socialnetworks[instagram]",
+      "socialNetworks[instagram]",
       product.socialNetworks.instagram
     );
     formData.append(
-      "socialnetworks[facebook]",
+      "socialNetworks[facebook]",
       product.socialNetworks.facebook
     );
-    formData.append("socialnetworks[twitter]", product.socialNetworks.twitter);
+    formData.append("socialNetworks[twitter]", product.socialNetworks.twitter);
 
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]); // Field name matches backend
     }
-    // ✅ Append multiple images (ensure they are files, not strings)
-    // if (product.images && product.images.length > 0) {
-    //   for (let i = 0; i < product.images.length; i++) {
-    //     if (product.images[i]) {
-    //       formData.append("images", product.images[i]); // ✅ Append File objects
-    //     } else {
-    //       console.warn(`Skipping non-file image: ${product.images[i]}`);
-    //     }
-    //   }
-    // }
 
-    // Debug FormData contents
     console.log("Submitting Product Data...");
-    for (let pair of formData.entries()) {
+    for (const pair of formData.entries()) {
       console.log(pair[0] + ": ", pair[1]);
     }
 
@@ -166,12 +143,13 @@ const AddProduct: React.FC = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("API Error:", errorData);
-        throw new Error(errorData.message || "Failed to upload product");
+        alert(errorData.message || "Failed to upload product");
       }
 
       console.log("Product uploaded successfully!");
-    } catch (error: any) {
-      console.error("Error:", error.message);
+    } catch (error: unknown) {
+        console.error(
+            "Error:", error);
     }
     console.log(product);
   };
@@ -287,7 +265,7 @@ const AddProduct: React.FC = () => {
                 {product.images.map((image, index) => (
                   <img
                     key={index}
-                    src={image} // Directly use the image URL string
+                    src={image.path} // Directly use the image URL string
                     alt={`Preview ${index}`}
                     className="w-20 h-20 object-cover rounded-lg border"
                   />
@@ -510,7 +488,7 @@ const AddProduct: React.FC = () => {
               type="text"
               id="numberofSpeeds"
               name="numberofSpeeds"
-              value={product.numberofSpeeds}
+              value={product.numberOfSpeeds}
               onChange={handleInputChange}
               className="w-full p-2 border rounded-md"
               required

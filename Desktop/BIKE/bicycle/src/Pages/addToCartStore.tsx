@@ -1,62 +1,115 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import {BikeDTO} from "@/Shared/Types/Product.ts";
+import {SpareParts} from "@/Shared/Types/SpareParts.ts";
 
-export const useAddToCartStore = create(
-  devtools((set) => ({
-    cartProducts: [],
-    fetchCartData: async () => {
-      try {
-        let url = "http://localhost:8080/members/cart-data"; // Correct URL initialization
-        const token = localStorage.getItem("token"); // Retrieve token from localStorage
-        // Append search query if searchTerm is provided
+export interface AddToCartStore {
+    cartProducts: BikeDTO[]; // replace `any` with your product type
+    partCartProducts: SpareParts[];
+    fetchCartData: () => Promise<void>;
+    fetchPartCartData: () => Promise<void>;
+    addToCart: (productId: string) => Promise<void>;
+    addToPartCart: (productId: string) => Promise<void>;
+    clearCart: () => void;
+}
 
-        if (token) {
-          const response = await fetch(url, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`, // Uncomment if using authentication
-            },
-          });
+const BASE_URL = "http://localhost:8080/members";
 
-          if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            set({ cartProducts: data }); // Update users in the store
-          } else {
-            console.error("Failed to fetch users data:", response.statusText);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching users data:", error);
-      }
-    },
-    addToCart: async (productId: string) => {
-      try {
-        const url = `http://localhost:8080/members/add-to-cart/${productId}`; // Correct URL initialization
-        const token = localStorage.getItem("token"); // Retrieve token from localStorage
+export const useAddToCartStore = create<AddToCartStore>()(
+    devtools((set) => ({
+        cartProducts: [],
+        partCartProducts: [],
 
-        if (token) {
-          const response = await fetch(url, {
-            method: "PATCH",
-            headers: {
-              Authorization: `Bearer ${token}`, // Uncomment if using authentication
-            },
-          });
+        fetchCartData: async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No token found. Please log in.");
+                return;
+            }
 
-          if (response.ok) {
-            const data = await response.json();
-            console.log(data)
-          } else {
-            console.error("Failed to fetch users data:", response.statusText);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching users data:", error);
-      }
-    },
-    
-    clearCart: () => {
-      set({ cart: [] });
-    },
-  }))
+            try {
+                const res = await fetch(`${BASE_URL}/cart-data`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) alert(res.statusText);
+
+                const data = await res.json();
+                set({ cartProducts: data });
+            } catch (err: unknown) {
+                const message = err instanceof Error ? err.message : String(err);
+                console.error("Error fetching cart data:", message);
+                alert(`Error fetching cart data: ${message}`);
+            }
+        },
+
+        fetchPartCartData: async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No token found. Please log in.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${BASE_URL}/part-cart-data`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) alert(res.statusText);
+
+                const data = await res.json();
+                set({ partCartProducts: data });
+            } catch (err: unknown) {
+                const message = err instanceof Error ? err.message : String(err);
+                console.error("Error fetching part cart data:", message);
+                alert(`Error fetching part cart data: ${message}`);
+            }
+        },
+
+        addToCart: async (productId: string | undefined) => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No token found. Please log in.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${BASE_URL}/add-to-cart/${productId}`, {
+                    method: "PATCH",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) throw new Error(res.statusText);
+
+                const data = await res.json();
+                console.log("Added to cart:", data);
+            } catch (err: unknown) {
+                const message = err instanceof Error ? err.message : String(err);
+                console.error("Error adding to cart:", message);
+                alert(`Error adding to cart: ${message}`);
+            }
+        },
+
+        addToPartCart: async (productId: string) => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No token found. Please log in.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${BASE_URL}/add-to-part-cart/${productId}`, {
+                    method: "PATCH",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) throw new Error(res.statusText);
+
+                const data = await res.json();
+                console.log("Added to part cart:", data);
+            } catch (err: unknown) {
+                const message = err instanceof Error ? err.message : String(err);
+                console.error("Error adding to part cart:", message);
+                alert(`Error adding to part cart: ${message}`);
+            }
+        },
+
+        clearCart: () => set({ cartProducts: [] }),
+    }))
 );
