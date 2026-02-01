@@ -6,7 +6,7 @@ import Bikes from "./Bikes";
 import {BikeStore, useProductStore} from "./store/bikes-store";
 import {categories, brand, framematerial} from "@/Shared/Types/Product";
 import {
-    Pagination,
+    Pagination ,
     PaginationContent,
     PaginationEllipsis,
     PaginationItem,
