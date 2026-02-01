@@ -107,7 +107,7 @@ npm run preview
  Author
 
 **Khalil**
-Frontend-focused Full-Stack Developer
+Full-Stack Developer
 React · Vite · Tailwind CSS · Spring Boot
 
 ---
